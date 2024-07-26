@@ -6,13 +6,13 @@
             class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed">
             <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
                 <img alt="Logo"
-                    src="{{ asset(asset(\App\Models\Setting::where('setting_key', 'logo')->first()->setting_value)) }}"
+                    src="{{ asset(\App\Models\Setting::where('setting_key', 'logo')->first()->setting_value) }}"
                     class="h-40px mb-10" />
-                <div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
-                    <form class="form w-100" method="POST" action="{{ route('dashboard.login.form') }}">
+                <div class="w-lg-600px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
+                    <form class="form w-100" method="POST" action="{{ route('dashboard.verify.submit') }}">
                         @csrf
-                        <div class="text-center mb-10">
-                            <h1 class="text-dark mb-3">{{ __('dash.Sign In to Dashboard') }}</h1>
+                        <div class="mb-10 text-center">
+                            <h1 class="text-dark mb-3">{{ __('Verify Your Email Address') }}</h1>
                         </div>
                         @if ($errors->any())
                             <div class="alert alert-dismissible bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10">
@@ -38,32 +38,20 @@
                             </div>
                         @endif
                         <div class="fv-row mb-10">
-                            <label class="form-label fs-6 fw-bolder text-dark">{{ __('dash.email') }}</label>
-                            <input class="form-control form-control-lg form-control-solid" type="text" name="email" />
-                        </div>
-                        <div class="fv-row mb-10">
-                            <label class="form-label fs-6 fw-bolder text-dark">{{ __('dash.password') }}</label>
-                            <input class="form-control form-control-lg form-control-solid" type="password" name="password"
-                                autocomplete="off" />
+                            <label class="form-label fs-6 fw-bolder text-dark">{{ __('Verification Code') }}</label>
+                            <input class="form-control form-control-lg form-control-solid" type="text"
+                                name="verification_code" required />
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-lg btn-primary w-100 mb-5">
-                                <span class="text">{{ __('dash.login') }}</span>
-                                <span class="btn-loader d-none"><i class="fas fa-circle-notch fa-spin p-0"></i>
-                                    {{ __('dash.please wait') }}</span>
+                                <span class="indicator-label">{{ __('Verify') }}</span>
+                                <span class="indicator-progress">{{ __('Please wait...') }}
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                             </button>
                         </div>
                     </form>
-                    <div class="text-center mt-5">
-                        <p>{{ __('Don\'t have an account?') }} <a
-                                href="{{ route('dashboard.register') }}">{{ __('Create an account') }}</a></p>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
-@push('script')
-    <script src="{{ asset('dashboard_assets/js/custom/authentication/sign-in/general.js') }}"></script>
-@endpush
