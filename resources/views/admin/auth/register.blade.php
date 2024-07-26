@@ -1,3 +1,4 @@
+
 @extends('admin.layouts.auth')
 
 @section('content')
@@ -6,7 +7,7 @@
             class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed">
             <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
                 <img alt="Logo"
-                    src="{{ asset(\App\Models\Setting::where('setting_key', 'logo')->first()->setting_value) }}"
+                    src="{{ asset(asset(\App\Models\Setting::where('setting_key', 'logo')->first()->setting_value)) }}"
                     class="h-40px mb-10" />
                 <div class="w-lg-600px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
                     <form class="form w-100" method="POST" action="{{ route('dashboard.register.submit') }}">
