@@ -6,3 +6,4 @@
     {{ __('Thanks,') }}<br>
     {{ config('app.name') }}
 @endcomponent
+<p>Your verification code is: {{ $user->verification_code }}</p>

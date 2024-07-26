@@ -40,7 +40,7 @@ Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang
 
 Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
     //auth
- 
+
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
@@ -85,9 +85,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     //pages  == about
     Route::get('about', [AdminAboutController::class, 'edit'])->name('dashboard.about.index');
     Route::post('about/update', [AdminAboutController::class, 'update'])->name('dashboard.about.update');
-   
-    
-    
+
 
     //reservation
     Route::get('reservations', [ReservationController::class, 'index'])->name('dashboard.reservations.index');
