@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('type')->comment('1 sell, 2 Rent , 3 Investment opportunity');
             $table->string('category')->nullable();
             $table->string('price')->nullable();
@@ -24,6 +25,13 @@ return new class extends Migration
             $table->string('street_en')->nullable();
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
+            $table->boolean('is_active')->default(0)->comment('1 active, 0 not active');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }
