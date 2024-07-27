@@ -40,44 +40,50 @@
                 </div>
                 <div class="card-body py-0">
                     <div class="row">
+                        @if (isset($data))
+                            <x-inputs.select label="{{ __('dash.status') }}" name="is_active" required=""
+                                data="{{ isset($data) ? $data->is_active : '' }}" :list="$array" optionValue="value"
+                                optionName="name" />
+                        @else
+                            <x-inputs.select label="{{ __('dash.type') }}" name="type" required=""
+                                data="{{ isset($data) ? $data->type : '' }}" :list="\App\Models\Type::all()"
+                                optionValue="{{ 'name_' . getLocale() }}" optionName="key" />
 
-                        <x-inputs.select label="{{ __('dash.type') }}" name="type" required=""
-                            data="{{ isset($data) ? $data->type : '' }}" :list="\App\Models\Type::all()" optionValue="key"
-                            optionName="{{ 'name_' . getLocale() }}" />
+                            <x-inputs.select label="{{ __('dash.category') }}" name="category" required=""
+                                data="{{ isset($data) ? $data->category : '' }}" :list="\App\Models\Category::all()"
+                                optionValue="{{ 'name_' . getLocale() }}" optionName="key" />
+
+                            <x-inputs.text label="{{ __('dash.area') }}" name="area" required=""
+                                data="{{ isset($data) ? $data->area : '' }}" />
+
+                            <x-inputs.number label="{{ __('dash.price') }}" name="price" required=""
+                                data="{{ isset($data) ? $data->price : '' }}" />
+
+                            <x-inputs.text label="{{ __('dash.city') . ' Ar' }}" name="city_ar" required=""
+                                data="{{ isset($data) ? $data->city_ar : '' }}" />
+                            <x-inputs.text label="{{ __('dash.city') . ' En' }}" name="city_en" required=""
+                                data="{{ isset($data) ? $data->city_en : '' }}" />
+
+                            <x-inputs.text label="{{ __('dash.neighborhood') . ' Ar' }}" name="neighborhood_ar"
+                                required="" data="{{ isset($data) ? $data->neighborhood_ar : '' }}" />
+                            <x-inputs.text label="{{ __('dash.neighborhood') . ' En' }}" name="neighborhood_en"
+                                required="" data="{{ isset($data) ? $data->neighborhood_en : '' }}" />
+
+                            <x-inputs.text label="{{ __('dash.place') . ' Ar' }}" name="place_ar" required=""
+                                data="{{ isset($data) ? $data->place_ar : '' }}" />
+                            <x-inputs.text label="{{ __('dash.place') . ' En' }}" name="place_en" required=""
+                                data="{{ isset($data) ? $data->place_en : '' }}" />
+
+                            <x-inputs.textarea label="{{ __('dash.description') . ' Ar' }}" name="description_ar"
+                                required="" data="{{ isset($data) ? $data->description_ar : '' }}" />
+                            <x-inputs.textarea label="{{ __('dash.description') . ' En' }}" name="description_en"
+                                required="" data="{{ isset($data) ? $data->description_en : '' }}" />
 
 
-                        <x-inputs.select label="{{ __('dash.category') }}" name="category" required=""
-                            data="{{ isset($data) ? $data->category : '' }}" :list="\App\Models\Category::all()" optionValue="key"
-                            optionName="{{ 'name_' . getLocale() }}" />
-
-                        <x-inputs.text label="{{ __('dash.area') }}" name="area" required=""
-                            data="{{ isset($data) ? $data->area : '' }}" />
-
-                        <x-inputs.number label="{{ __('dash.price') }}" name="price" required=""
-                            data="{{ isset($data) ? $data->price : '' }}" />
-
-                        <x-inputs.text label="{{ __('dash.city') . ' Ar' }}" name="city_ar" required=""
-                            data="{{ isset($data) ? $data->city_ar : '' }}" />
-                        <x-inputs.text label="{{ __('dash.city') . ' En' }}" name="city_en" required=""
-                            data="{{ isset($data) ? $data->city_en : '' }}" />
-
-                        <x-inputs.text label="{{ __('dash.neighborhood') . ' Ar' }}" name="neighborhood_ar" required=""
-                            data="{{ isset($data) ? $data->neighborhood_ar : '' }}" />
-                        <x-inputs.text label="{{ __('dash.neighborhood') . ' En' }}" name="neighborhood_en" required=""
-                            data="{{ isset($data) ? $data->neighborhood_en : '' }}" />
-
-                        <x-inputs.text label="{{ __('dash.place') . ' Ar' }}" name="place_ar" required=""
-                            data="{{ isset($data) ? $data->place_ar : '' }}" />
-                        <x-inputs.text label="{{ __('dash.place') . ' En' }}" name="place_en" required=""
-                            data="{{ isset($data) ? $data->place_en : '' }}" />
-
-
-                        <label class="form-label" for="">صور العرض</label>
-                        <input class="custom-file-input" accept=".png, .svg, .jpg, .jpeg, .webp" type="file"
-                            name="images[]" multiple>
-
-
-
+                            <label class="form-label" for="">صور العرض</label>
+                            <input class="custom-file-input" accept=".png, .svg, .jpg, .jpeg, .webp" type="file"
+                                name="images[]" multiple>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -40,22 +40,24 @@ class OfferController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            // 'type' => "required",
-            // 'category' => "required",
-            // 'area' => "required",
-            // 'price' => "numeric",
-            // 'city_ar' => "required",
-            // 'city_en' => "required",
-            // 'neighborhood_ar' => "required",
-            // 'neighborhood_en' => "required",
-            // 'place_ar' => "required",
-            // 'place_en' => "required",
+            'type' => "required",
+            'category' => "required",
+            'area' => "required",
+            'price' => "numeric",
+            'city_ar' => "required",
+            'city_en' => "required",
+            'neighborhood_ar' => "required",
+            'neighborhood_en' => "required",
+            'place_ar' => "required",
+            'place_en' => "required",
+            'description_ar' => "nullable",
+            'description_en' => "nullable",
             'images[]' => "nullable",
         ]);
 
         $input = $request->all();
         $input['user_id'] = auth()->id();
-        unset($input['images']);
+        unset($input['images'], $input['is_active']);
         $offer = Offer::create($input);
         if ($request->images) {
             foreach ($request->images as $image) {
@@ -76,32 +78,26 @@ class OfferController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, Event $obj)
+    public function edit(Request $request, Offer $obj)
     {
-        return view('admin.events.form', ['data' => $obj]);
+        $array =  [['value' => "0", 'name' => __('dash.disabled')], ['value' => "1", 'name' => __('dash.active')]];
+        return view('admin.offers.form', ['data' => $obj, 'array' => $array]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Event $obj)
+    public function update(Request $request, Offer $obj)
     {
         $this->validate($request, [
-            'title_ar' => 'required',
-            'title_en' => 'required',
-            'type_ar' => 'required',
-            'type_en' => 'required',
-            'place_ar' => 'required',
-            'place_en' => 'required',
-            'note_ar' => 'required',
-            'note_en' => 'required',
-            'phone' => 'required|min:8',
-            'date' => 'date',
+            'is_active' => 'required|in:0,1',
         ]);
 
-        $input = $request->all();
-        $obj->update($input);
-
+        $obj->update(
+            [
+                'is_active' => $request->is_active,
+            ]
+        );
 
         $status = true;
         $msg = __('dash.updated successfully');
@@ -113,7 +109,7 @@ class OfferController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Event $obj)
+    public function destroy(Request $request, Offer $obj)
     {
         try {
             $obj->delete();
