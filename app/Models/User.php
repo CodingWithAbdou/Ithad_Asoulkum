@@ -22,7 +22,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'image'
+        'image',
+        'code',
+        'expire'
     ];
 
     /**
@@ -45,8 +47,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+
     public function offers()
     {
         return $this->hasMany(Offer::class);
     }
 }
+
