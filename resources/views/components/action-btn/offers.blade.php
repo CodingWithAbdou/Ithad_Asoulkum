@@ -1,4 +1,91 @@
 <td>
+    <button data-bs-toggle="modal" data-bs-target="#message-modal-{{ $record->id }}"
+        class="btn btn-icon btn-bg-light btn-active-color-info btn-sm me-1 my-1">
+        <div class="w-100 h-100 d-flex justify-content-center align-items-center" data-bs-toggle="tooltip"
+            data-bs-placement="bottom" title="{{ __('dash.message') }}">
+            <span class="svg-icon svg-icon-3">
+                <i class="fas fa-eye"></i>
+            </span>
+        </div>
+    </button>
+    <div class="modal fade" tabindex="-1" id="message-modal-{{ $record->id }}">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    {{-- <h5 class="modal-title">{{ __('front.Job Application') }}</h5> --}}
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <span class="svg-icon svg-icon-2x">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr class="text-start text-dark fw-bolder fs-7 text-uppercase gs-0">
+                                <th class="min-w-100px">{{ __('dash.input') }}</th>
+                                <th class="min-w-100px">{{ __('dash.value') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="fw-bold text-gray-800">
+
+                            <tr>
+                                <td class="ps-3">{{ __('dash.is_active') }}</td>
+                                <td>
+                                    <div
+                                        class="badge badge-light-{{ $record->is_active == 0 ? 'warning' : 'success' }}">
+                                        {{ $record->is_active == 0 ? __('dash.disabled') : __('dash.active') }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="p-4">
+                                <td class="ps-3">{{ __('dash.agent_name') }}</td>
+                                <td> {{ $record->user->name }}</td>
+                            </tr>
+                            <tr class="p-4">
+                                <td class="ps-3">{{ __('dash.type') }}</td>
+                                <td>{{ $record->type }}</td>
+                            </tr>
+                            <tr class="p-4">
+                                <td class="ps-3">{{ __('dash.category') }}</td>
+                                <td>{{ $record->category }}</td>
+                            </tr>
+                            <tr class="p-4">
+                                <td class="ps-3">{{ __('dash.area') }}</td>
+                                <td>{{ $record->area }}</td>
+                            </tr>
+
+                            <tr class="p-4">
+                                <td class="ps-3">{{ __('dash.price') }}</td>
+                                <td>{{ $record->price }}
+                                    {{ $record->currency == 1 ? __('front.riyal') : ($record->currency == 2 ? __('front.dollar') : __('front.dirham')) }}
+                                </td>
+                            </tr>
+                            <tr class="p-4">
+                                <td class="ps-3">{{ __('dash.city') }}</td>
+                                <td>{{ $record->{'city_' . getLocale()} }}</td>
+                            </tr>
+                            <tr class="p-4">
+                                <td class="ps-3">{{ __('dash.neighborhood ') }}</td>
+                                <td>{{ $record->{'neighborhood_' . getLocale()} }}</td>
+                            </tr>
+                            <tr class="p-4">
+                                <td class="ps-3">{{ __('dash.place ') }}</td>
+                                <td>{{ $record->{'place_' . getLocale()} }}</td>
+                            </tr>
+                            <tr class="p-4">
+                                <td class="ps-3">{{ __('dash.description') }}</td>
+                                <td>{{ $record->{'description_' . getLocale()} }}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <a href="{{ route('dashboard.offers.edit', $record) }}"
         class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" data-bs-toggle="tooltip"
         data-bs-placement="bottom" title="{{ __('dash.edit') }}">
@@ -14,8 +101,8 @@
         </span>
     </a>
     <a class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm delete-btn"
-        data-url="{{ route('dashboard.offers.destroy', $record) }}" data-bs-toggle="tooltip" data-bs-placement="bottom"
-        title="{{ __('dash.delete') }}">
+        data-url="{{ route('dashboard.reservations.destroy', $record) }}" data-bs-toggle="tooltip"
+        data-bs-placement="bottom" title="{{ __('dash.delete') }}">
         <span class="text">
             <span class="svg-icon svg-icon-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

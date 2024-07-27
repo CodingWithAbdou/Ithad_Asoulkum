@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('category')->nullable();
             $table->string('area')->nullable();
             $table->string('price')->nullable();
+            $table->string('currency')->nullable()->comment('1 riyal, 2 dollar, 3 dirham');
             $table->string('city_ar')->nullable();
             $table->string('city_en')->nullable();
             $table->string('neighborhood_ar')->nullable();

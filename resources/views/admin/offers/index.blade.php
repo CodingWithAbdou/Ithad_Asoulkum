@@ -22,7 +22,7 @@
             </div>
             <div class="card-toolbar">
                 <x-table.export />
-                <x-table.item_order />
+                {{-- <x-table.item_order /> --}}
                 <x-table.create />
             </div>
         </div>
@@ -33,8 +33,8 @@
                         <th class="min-w-250px">{{ __('dash.agent_name') }}</th>
                         <th class="min-w-150px">{{ __('dash.type') }}</th>
                         <th class="min-w-150px">{{ __('dash.category') }}</th>
+                        <th class="min-w-150px">{{ __('dash.price') }}</th>
                         <th class="min-w-150px">{{ __('dash.is_active') }}</th>
-                        <th class="min-w-150px">{{ __('dash.created_at') }}</th>
                         <th class="min-w-70px no-export">{{ __('dash.actions') }}</th>
                     </tr>
                 </thead>
@@ -44,10 +44,18 @@
                             <td>
                                 {{ $record->user->name }}
                             </td>
-                            <td>{{ $record->type }}</td>
-                            <td>{{ $record->category }}</td>
-                            <td>{{ $record->is_active }}</td>
-                            <td>{{ $record->created_at }}</td>
+                            <td>{{ App\Models\Type::where('key', $record->type)->first()->{'name_' . getLocale()} ?? '' }}
+                            </td>
+                            <td>{{ App\Models\Category::where('key', $record->category)->first()->{'name_' . getLocale()} ?? '' }}
+                            </td>
+                            <td>{{ $record->price }}
+                                {{ $record->currency == 1 ? __('front.riyal') : ($record->currency == 2 ? __('front.dollar') : __('front.dirham')) }}
+                            </td>
+                            </td>
+                            <td>
+                                <div class="badge badge-light-{{ $record->is_active == 0 ? 'warning' : 'success' }}">
+                                    {{ $record->is_active == 0 ? __('dash.disabled') : __('dash.active') }}</div>
+                            </td>
                             <x-action-btn.offers :record="$record" />
                         </tr>
                     @endforeach

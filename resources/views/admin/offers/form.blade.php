@@ -46,18 +46,21 @@
                                 optionName="name" />
                         @else
                             <x-inputs.select label="{{ __('dash.type') }}" name="type" required=""
-                                data="{{ isset($data) ? $data->type : '' }}" :list="\App\Models\Type::all()"
-                                optionValue="{{ 'name_' . getLocale() }}" optionName="key" />
+                                data="{{ isset($data) ? $data->type : '' }}" :list="\App\Models\Type::all()" optionValue="key"
+                                optionName="{{ 'name_' . getLocale() }}" />
 
                             <x-inputs.select label="{{ __('dash.category') }}" name="category" required=""
-                                data="{{ isset($data) ? $data->category : '' }}" :list="\App\Models\Category::all()"
-                                optionValue="{{ 'name_' . getLocale() }}" optionName="key" />
-
-                            <x-inputs.text label="{{ __('dash.area') }}" name="area" required=""
-                                data="{{ isset($data) ? $data->area : '' }}" />
+                                data="{{ isset($data) ? $data->category : '' }}" :list="\App\Models\Category::all()" optionValue="key"
+                                optionName="{{ 'name_' . getLocale() }}" />
 
                             <x-inputs.number label="{{ __('dash.price') }}" name="price" required=""
                                 data="{{ isset($data) ? $data->price : '' }}" />
+                            <x-inputs.select label="{{ __('dash.currency') }}" name="currency" required=""
+                                data="{{ isset($data) ? $data->currency : '' }}" :list="$currency" optionValue="value"
+                                optionName="name" />
+
+                            <x-inputs.text label="{{ __('dash.area') }}" name="area" required=""
+                                data="{{ isset($data) ? $data->area : '' }}" />
 
                             <x-inputs.text label="{{ __('dash.city') . ' Ar' }}" name="city_ar" required=""
                                 data="{{ isset($data) ? $data->city_ar : '' }}" />

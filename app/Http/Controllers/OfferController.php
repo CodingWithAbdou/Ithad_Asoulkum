@@ -31,7 +31,8 @@ class OfferController extends Controller
      */
     public function create()
     {
-        return view('admin.offers.form');
+        $currency = [['name' => __('front.riyal'), 'value' => '1'], ['name' =>   __('front.dirham'), 'value' => '3'], ['name' => __('front.dollar'), 'value' => '2']];
+        return view('admin.offers.form', compact('currency'));
     }
 
     // /**
@@ -44,6 +45,7 @@ class OfferController extends Controller
             'category' => "required",
             'area' => "required",
             'price' => "numeric",
+            'currency' => "required",
             'city_ar' => "required",
             'city_en' => "required",
             'neighborhood_ar' => "required",
