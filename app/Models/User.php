@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Carbon\Carbon;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,6 +47,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function generateCode()
+    {
+        $this->timestamps=false;
+        $this->code=rand(100000,999999);
+        $this->expire=now()->addMinutes(15);
+        $this->save();
+    }
+
 
 
     public function offers()
@@ -53,4 +62,5 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Offer::class);
     }
 }
+
 

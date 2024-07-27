@@ -28,10 +28,13 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+      //  event(new Registered($user));
+      $user->generateCode();
 
         Auth::login($user);
-
-        return redirect()->route('dashboard.profile.complete');
+     //   $user=User::where('email',$this->input('eamil')->first());
+        echo $user;
+                return redirect()->route('dashboard.home');
+       // return redirect()->route('dashboard.profile.complete');
     }
 }
