@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AboutController as AdminAboutController;
+use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\FaqPageController;
 use App\Http\Controllers\Admin\HomeDashController;
 use App\Http\Controllers\Admin\LoginController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JoinUsController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ReorderController;
 use App\Http\Controllers\ReservationController;
 use GuzzleHttp\Middleware;
@@ -47,7 +49,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
     Route::post('verify-email', [RegisterController::class, 'verifyEmail'])->name('dashboard.verify.submit');
     Route::get('complete-profile', [RegisterController::class, 'showCompleteProfileForm'])->name('dashboard.profile.complete.show');
     Route::post('complete-profile', [RegisterController::class, 'completeProfile'])->name('dashboard.profile.complete.submit');
-
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
@@ -79,7 +80,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/settings', [SettingController::class, 'index'])->name('dashboard.settings.index');
     Route::post('/settings', [SettingController::class, 'update'])->name('dashboard.settings.update');
 
-
     //pages  == faqs
     Route::get('faqs', [FaqPageController::class, 'index'])->name('dashboard.faqs.index');
     Route::get('faqs/create', [FaqPageController::class, 'create'])->name('dashboard.faqs.create');
@@ -88,13 +88,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('faqs/{obj}/update', [FaqPageController::class, 'update'])->name('dashboard.faqs.update');
     Route::delete('faqs/{obj}/delete', [FaqPageController::class, 'destroy'])->name('dashboard.faqs.destroy');
 
-
     //pages  == about
     Route::get('about', [AdminAboutController::class, 'edit'])->name('dashboard.about.index');
     Route::post('about/update', [AdminAboutController::class, 'update'])->name('dashboard.about.update');
-
-
-
 
     //reservation
     Route::get('reservations', [ReservationController::class, 'index'])->name('dashboard.reservations.index');
@@ -104,8 +100,21 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('join_us', [JoinUsController::class, 'index'])->name('dashboard.join_us.index');
     Route::delete('join_us/{obj}/delete', [JoinUsController::class, 'destroy'])->name('dashboard.join_us.destroy');
 
+    //Events
+    Route::get('events', [EventController::class, 'index'])->name('dashboard.events.index');
+    Route::get('events/create', [EventController::class, 'create'])->name('dashboard.events.create');
+    Route::post('events/store', [EventController::class, 'store'])->name('dashboard.events.store');
+    Route::get('events/{obj}/edit', [EventController::class, 'edit'])->name('dashboard.events.edit');
+    Route::post('events/{obj}/update', [EventController::class, 'update'])->name('dashboard.events.update');
+    Route::delete('events/{obj}/delete', [EventController::class, 'destroy'])->name('dashboard.events.destroy');
 
-
+    //Offers
+    Route::get('offers', [OfferController::class, 'index'])->name('dashboard.offers.index');
+    Route::get('offers/create', [OfferController::class, 'create'])->name('dashboard.offers.create');
+    Route::post('offers/store', [OfferController::class, 'store'])->name('dashboard.offers.store');
+    Route::get('offers/{obj}/edit', [OfferController::class, 'edit'])->name('dashboard.offers.edit');
+    Route::post('offers/{obj}/update', [OfferController::class, 'update'])->name('dashboard.offers.update');
+    Route::delete('offers/{obj}/delete', [OfferController::class, 'destroy'])->name('dashboard.offers.destroy');
 });
 
 Route::post('join_us/store', [JoinUsController::class, 'join'])->name('join_us.store');
