@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Offer;
 use App\Models\ProjectModel;
 use Illuminate\Http\Request;
@@ -25,94 +26,103 @@ class OfferController extends Controller
         return view('admin.offers.index', compact('data'));
     }
 
-    // /**
-    //  * Show the form for creating a new resource.
-    //  */
-    // public function create()
-    // {
-    //     return view('admin.events.form');
-    // }
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('admin.offers.form');
+    }
 
     // /**
     //  * Store a newly created resource in storage.
     //  */
-    // public function store(Request $request)
-    // {
-    //     $this->validate($request, [
-    //         'title_ar' => 'required',
-    //         'title_en' => 'required',
-    //         'type_ar' => 'required',
-    //         'type_en' => 'required',
-    //         'place_ar' => 'required',
-    //         'place_en' => 'required',
-    //         'note_ar' => 'required',
-    //         'note_en' => 'required',
-    //         'phone' => 'required|min:8',
-    //         'date' => 'date',
-    //     ]);
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            // 'type' => "required",
+            // 'category' => "required",
+            // 'area' => "required",
+            // 'price' => "numeric",
+            // 'city_ar' => "required",
+            // 'city_en' => "required",
+            // 'neighborhood_ar' => "required",
+            // 'neighborhood_en' => "required",
+            // 'place_ar' => "required",
+            // 'place_en' => "required",
+            'images[]' => "nullable",
+        ]);
 
-    //     $input = $request->all();
+        $input = $request->all();
+        $input['user_id'] = auth()->id();
+        unset($input['images']);
+        $offer = Offer::create($input);
+        if ($request->images) {
+            foreach ($request->images as $image) {
+                Image::create([
+                    'offer_id' => $offer->id,
+                    'path' => generalUpload('Offer', $image)
+                ]);
+            }
+        }
+        $status = true;
+        $msg = __('dash.created successfully');
+        $url = route('dashboard.' . $this->model->route_key . '.index');
 
-    //     Event::create($input);
-
-    //     $status = true;
-    //     $msg = __('dash.created successfully');
-    //     $url = route('dashboard.' . $this->model->route_key . '.index');
-
-    //     return response()->json(compact('status', 'msg', 'url'));
-    // }
-
-
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  */
-    // public function edit(Request $request, Event $obj)
-    // {
-    //     return view('admin.events.form', ['data' => $obj]);
-    // }
-
-    // /**
-    //  * Update the specified resource in storage.
-    //  */
-    // public function update(Request $request, Event $obj)
-    // {
-    //     $this->validate($request, [
-    //         'title_ar' => 'required',
-    //         'title_en' => 'required',
-    //         'type_ar' => 'required',
-    //         'type_en' => 'required',
-    //         'place_ar' => 'required',
-    //         'place_en' => 'required',
-    //         'note_ar' => 'required',
-    //         'note_en' => 'required',
-    //         'phone' => 'required|min:8',
-    //         'date' => 'date',
-    //     ]);
-
-    //     $input = $request->all();
-    //     $obj->update($input);
+        return response()->json(compact('status', 'msg', 'url'));
+    }
 
 
-    //     $status = true;
-    //     $msg = __('dash.updated successfully');
-    //     $url = route('dashboard.' . $this->model->route_key . '.index');
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Request $request, Event $obj)
+    {
+        return view('admin.events.form', ['data' => $obj]);
+    }
 
-    //     return response()->json(compact('status', 'msg', 'url'));
-    // }
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Event $obj)
+    {
+        $this->validate($request, [
+            'title_ar' => 'required',
+            'title_en' => 'required',
+            'type_ar' => 'required',
+            'type_en' => 'required',
+            'place_ar' => 'required',
+            'place_en' => 'required',
+            'note_ar' => 'required',
+            'note_en' => 'required',
+            'phone' => 'required|min:8',
+            'date' => 'date',
+        ]);
 
-    // /**
-    //  * Remove the specified resource from storage.
-    //  */
-    // public function destroy(Request $request, Event $obj)
-    // {
-    //     try {
-    //         $obj->delete();
-    //         $status = true;
-    //         $msg = __('dash.deleted_successfully');
-    //     } catch (\Exception $e) {
-    //         $status = false;
-    //         $msg = $e->getMessage();
-    //     }
-    //     return response()->json(compact('status', 'msg'));
-    // }
+        $input = $request->all();
+        $obj->update($input);
+
+
+        $status = true;
+        $msg = __('dash.updated successfully');
+        $url = route('dashboard.' . $this->model->route_key . '.index');
+
+        return response()->json(compact('status', 'msg', 'url'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Request $request, Event $obj)
+    {
+        try {
+            $obj->delete();
+            $status = true;
+            $msg = __('dash.deleted_successfully');
+        } catch (\Exception $e) {
+            $status = false;
+            $msg = $e->getMessage();
+        }
+        return response()->json(compact('status', 'msg'));
+    }
 }

@@ -29,8 +29,7 @@ class TypeAndCatergorySeeder extends Seeder
             'name_ar' => 'فرصة استثمارية',
             'name_en' => 'Investment opportunity',
         ]);
-        $categories_one = [
-            'land' => 'أرض',
+        $categories = [
             'palace' => 'قصر',
             'resort' => 'منتجع',
             'building' => 'مبنى',
@@ -49,8 +48,6 @@ class TypeAndCatergorySeeder extends Seeder
             'Compound' => 'مجمع',
             'Warehouse' => 'مستودع',
             'Station' => 'محطة',
-        ];
-        $categories_two = [
             'land' => 'أرض',
             'auction' => 'مزاد',
             'tower' => 'برج',
@@ -58,24 +55,10 @@ class TypeAndCatergorySeeder extends Seeder
             'partnership' => 'شراكة',
             'other' => 'أخرى',
         ];
+        $categories_two = [];
 
-        foreach ($categories_one as $key => $name_ar) {
+        foreach ($categories as $key => $name_ar) {
             Category::create([
-                'type_id' => '1',
-                'key' => $key,
-                'name_ar' => $name_ar,
-                'name_en' => $key,
-            ]);
-            Category::create([
-                'type_id' => '2',
-                'key' => $key,
-                'name_ar' => $name_ar,
-                'name_en' => $key,
-            ]);
-        }
-        foreach ($categories_two as $key => $name_ar) {
-            Category::create([
-                'type_id' => '3',
                 'key' => $key,
                 'name_ar' => $name_ar,
                 'name_en' => $key,

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('key');
             $table->string('name_ar');
             $table->string('name_en');
-            $table->unsignedBigInteger('type_id');
-            $table->foreign('type_id')->references('id')->on('types');
+            // $table->unsignedBigInteger('type_id');
+            // $table->foreign('type_id')->references('id')->on('types');
             $table->timestamps();
         });
     }
