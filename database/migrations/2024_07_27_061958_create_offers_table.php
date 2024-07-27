@@ -26,6 +26,7 @@ return new class extends Migration
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
             $table->boolean('is_active')->default(0)->comment('1 active, 0 not active');
+            $table->integer('order_by')->nullable();;
 
             $table->foreign('user_id')
                 ->references('id')
