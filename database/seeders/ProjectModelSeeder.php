@@ -92,5 +92,17 @@ class ProjectModelSeeder extends Seeder
             "icon" =>  'fas fa-users',
             "order_by" => '1'
         ]);
+
+        ProjectModel::create([
+            'parent_id' => '0',
+            'title_ar' => 'الأحداث العقارية',
+            'route_key' => 'events',
+            'title_en' => 'Event',
+            'model' => 'Event',
+            'model_name' => 'App\Models\Event',
+            "is_menu" => '1',
+            "icon" =>  'fa fa-bolt',
+            "order_by" => '1'
+        ]);
     }
 }
