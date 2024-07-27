@@ -57,7 +57,8 @@ return [
     'Station' => 'Station',
 
     'enter_phone' => 'Enter phone number',
-
+    'login' => 'Login',
+    'register' => 'Register',
     'rang_price' => 'Range of Price ',
 
     'type_mony' => 'type of money',
@@ -69,6 +70,7 @@ return [
     'dev' => 'Abdou ',
 
 
+ 
     'home' => 'Home',
     'faq' => 'FAQ',
     'join-us' => 'Join Us',

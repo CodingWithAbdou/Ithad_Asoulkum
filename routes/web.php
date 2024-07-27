@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\FaqPageController;
 use App\Http\Controllers\Admin\HomeDashController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\FaqController;
@@ -38,9 +39,15 @@ Route::post('/store', [HomeController::class, 'store'])->name('form.store');
 Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switchLang');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
-    //auth
     Route::get('login', [LoginController::class, 'index'])->name('dashboard.login.index');
-    Route::post('admin/login/submit', [LoginController::class, 'login'])->name('dashboard.login.form');
+    Route::post('login/submit', [LoginController::class, 'login'])->name('dashboard.login.form');
+    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('dashboard.register');
+    Route::post('register/submit', [RegisterController::class, 'register'])->name('dashboard.register.submit');
+    Route::get('verify-email', [RegisterController::class, 'showVerificationForm'])->name('dashboard.verify.show');
+    Route::post('verify-email', [RegisterController::class, 'verifyEmail'])->name('dashboard.verify.submit');
+    Route::get('complete-profile', [RegisterController::class, 'showCompleteProfileForm'])->name('dashboard.profile.complete.show');
+    Route::post('complete-profile', [RegisterController::class, 'completeProfile'])->name('dashboard.profile.complete.submit');
+
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
@@ -88,6 +95,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
 
 
+
     //reservation
     Route::get('reservations', [ReservationController::class, 'index'])->name('dashboard.reservations.index');
     Route::delete('reservations/{obj}/delete', [ReservationController::class, 'destroy'])->name('dashboard.reservations.destroy');
@@ -95,6 +103,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     //join_us
     Route::get('join_us', [JoinUsController::class, 'index'])->name('dashboard.join_us.index');
     Route::delete('join_us/{obj}/delete', [JoinUsController::class, 'destroy'])->name('dashboard.join_us.destroy');
+
+
+
 });
 
 Route::post('join_us/store', [JoinUsController::class, 'join'])->name('join_us.store');
