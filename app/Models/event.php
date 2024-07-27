@@ -20,5 +20,6 @@ class Event extends Model
         'place_en',
         'type_ar',
         'type_en',
+        'order_by',
     ];
 }

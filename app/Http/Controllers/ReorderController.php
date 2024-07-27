@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Faq;
 use App\Models\ProjectModel;
 use Illuminate\Http\Request;
@@ -15,7 +16,11 @@ class ReorderController extends Controller
             abort(403);
         }
 
-        $list = Faq::orderBy('order_by', 'asc')->get();
+        if ($segment == 'events') {
+            $list = Event::orderBy('order_by', 'asc')->get();
+        } else {
+            $list = Faq::orderBy('order_by', 'asc')->get();
+        }
         return view('admin.reorder-items.reorder', compact('list', 'model'));
     }
     public function update(Request $request)

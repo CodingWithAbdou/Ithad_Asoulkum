@@ -48,7 +48,7 @@ class EventController extends Controller
             'place_en' => 'required',
             'note_ar' => 'required',
             'note_en' => 'required',
-            'phone' => 'required|size:17',
+            'phone' => 'required|min:8',
             'date' => 'date',
         ]);
 

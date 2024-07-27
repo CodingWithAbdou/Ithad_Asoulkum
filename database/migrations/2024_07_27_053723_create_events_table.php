@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('place_en')->nullable();
             $table->string('type_ar')->nullable();
             $table->string('type_en')->nullable();
+            $table->integer('order_by')->nullable();
             $table->timestamps();
         });
     }

@@ -31,7 +31,9 @@
                                     class="card card-custom mb-2 draggable slider-order-div">
                                     <div class="card-header draggable-handle border">
                                         <div class="card-title">
-                                            <h3 class="card-label">{{ $item->{'question_' . getLocale()} }}</h3>
+                                            <h3 class="card-label">
+                                                {{ $item->{'question_' . getLocale()} ?? $item->{'title_' . getLocale()} }}
+                                            </h3>
                                         </div>
                                         <div class="card-toolbar">
                                             <a class="btn btn-icon btn-sm btn-hover-light-primary" data-container="body">
