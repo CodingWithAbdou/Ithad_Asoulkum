@@ -42,14 +42,15 @@ class EventController extends Controller
         $this->validate($request, [
             'title_ar' => 'required',
             'title_en' => 'required',
+            'date_start' => 'required|date',
+            'date_end' => 'required|date|after:date_start',
             'type_ar' => 'required',
             'type_en' => 'required',
             'place_ar' => 'required',
             'place_en' => 'required',
-            'note_ar' => 'required',
-            'note_en' => 'required',
             'phone' => 'required|min:8',
-            'date' => 'date',
+            'organizer_ar' => 'required',
+            'organizer_en' => 'required',
         ]);
 
         $input = $request->all();
@@ -77,17 +78,19 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $obj)
     {
+
         $this->validate($request, [
             'title_ar' => 'required',
             'title_en' => 'required',
+            'date_start' => 'required|date',
+            'date_end' => 'required|date|after:date_start',
             'type_ar' => 'required',
             'type_en' => 'required',
             'place_ar' => 'required',
             'place_en' => 'required',
-            'note_ar' => 'required',
-            'note_en' => 'required',
             'phone' => 'required|min:8',
-            'date' => 'date',
+            'organizer_ar' => 'required',
+            'organizer_en' => 'required',
         ]);
 
         $input = $request->all();

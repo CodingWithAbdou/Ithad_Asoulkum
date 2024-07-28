@@ -45,6 +45,12 @@
                                 data="{{ isset($data) ? $data->is_active : '' }}" :list="$array" optionValue="value"
                                 optionName="name" />
                         @else
+                            <div class="col-md-6 mb-10">
+                                <label class="form-label" class="form-label" for="">صور العرض</label>
+                                <input class="form-select form-select-solid" class="custom-file-input"
+                                    accept=".png, .svg, .jpg, .jpeg, .webp" type="file" name="images[]" multiple>
+                            </div>
+
                             <x-inputs.select label="{{ __('dash.type') }}" name="type" required=""
                                 data="{{ isset($data) ? $data->type : '' }}" :list="\App\Models\Type::all()" optionValue="key"
                                 optionName="{{ 'name_' . getLocale() }}" />
@@ -81,11 +87,6 @@
                                 required="" data="{{ isset($data) ? $data->description_ar : '' }}" />
                             <x-inputs.textarea label="{{ __('dash.description') . ' En' }}" name="description_en"
                                 required="" data="{{ isset($data) ? $data->description_en : '' }}" />
-
-
-                            <label class="form-label" for="">صور العرض</label>
-                            <input class="custom-file-input" accept=".png, .svg, .jpg, .jpeg, .webp" type="file"
-                                name="images[]" multiple>
                         @endif
                     </div>
                 </div>

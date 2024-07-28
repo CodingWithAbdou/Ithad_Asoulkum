@@ -32,7 +32,7 @@
                     <tr class="text-start text-dark fw-bolder fs-7 text-uppercase gs-0">
                         <th class="min-w-250px">{{ __('dash.title') }}</th>
                         <th class="min-w-150px">{{ __('dash.type') }}</th>
-                        <th class="min-w-150px">{{ __('dash.date_event') }}</th>
+                        <th class="min-w-150px">{{ __('dash.organizer') }}</th>
                         <th class="min-w-70px no-export">{{ __('dash.actions') }}</th>
                     </tr>
                 </thead>
@@ -43,7 +43,7 @@
                                 {{ $record->{'title_' . getLocale()} }}
                             </td>
                             <td>{{ $record->{'type_' . getLocale()} }}</td>
-                            <td>{{ $record->date }}</td>
+                            <td>{{ $record->{'organizer_' . getLocale()} }}</td>
                             <x-action-btn.events :record="$record" />
                         </tr>
                     @endforeach

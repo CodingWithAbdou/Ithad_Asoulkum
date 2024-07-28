@@ -45,16 +45,16 @@
                         <x-inputs.text label="{{ __('dash.title') . ' en' }}" name="title_en" required=""
                             data="{{ isset($data) ? $data->title_en : '' }}" />
 
+                        <x-inputs.date label="{{ __('dash.date_start') }}" name="date_start" required=""
+                            data="{{ isset($data) ? substr($data->date_start, 0, 10) : '' }}" />
+
+                        <x-inputs.date label="{{ __('dash.date_end') }}" name="date_end" required=""
+                            data="{{ isset($data) ? substr($data->date_end, 0, 10) : '' }}" />
+
                         <x-inputs.text label="{{ __('dash.type') . ' ar' }}" name="type_ar" required=""
                             data="{{ isset($data) ? $data->type_ar : '' }}" />
                         <x-inputs.text label="{{ __('dash.type') . ' en' }}" name="type_en" required=""
                             data="{{ isset($data) ? $data->type_en : '' }}" />
-
-                        <x-inputs.text label="{{ __('dash.note') . ' ar' }}" name="note_ar" required=""
-                            data="{{ isset($data) ? $data->note_ar : '' }}" />
-
-                        <x-inputs.text label="{{ __('dash.note') . ' en' }}" name="note_en" required=""
-                            data="{{ isset($data) ? $data->note_en : '' }}" />
 
                         <x-inputs.text label="{{ __('dash.place') . ' ar' }}" name="place_ar" required=""
                             data="{{ isset($data) ? $data->place_ar : '' }}" />
@@ -62,11 +62,15 @@
                         <x-inputs.text label="{{ __('dash.place') . ' en' }}" name="place_en" required=""
                             data="{{ isset($data) ? $data->place_en : '' }}" />
 
+                        <x-inputs.text label="{{ __('dash.organizer') . ' ar' }}" name="organizer_ar" required=""
+                            data="{{ isset($data) ? $data->organizer_ar : '' }}" />
+
+                        <x-inputs.text label="{{ __('dash.organizer') . ' en' }}" name="organizer_en" required=""
+                            data="{{ isset($data) ? $data->organizer_en : '' }}" />
+
                         <x-inputs.phone label="{{ __('dash.phone') }}" name="phone" required=""
                             data="{{ isset($data) ? $data->phone : '' }}" />
 
-                        <x-inputs.date label="{{ __('dash.date') }}" name="date" required=""
-                            data="{{ isset($data) ? $data->date : '' }}" />
 
                     </div>
                 </div>

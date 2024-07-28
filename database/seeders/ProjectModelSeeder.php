@@ -97,7 +97,7 @@ class ProjectModelSeeder extends Seeder
             'parent_id' => '0',
             'title_ar' => 'العروض العقارية',
             'route_key' => 'offers',
-            'title_en' => 'Offers',
+            'title_en' => 'Real Estate Offers',
             'model' => 'Offer',
             'model_name' => 'App\Models\Offer',
             "is_menu" => '1',
@@ -107,9 +107,9 @@ class ProjectModelSeeder extends Seeder
 
         ProjectModel::create([
             'parent_id' => '0',
-            'title_ar' => 'الأحداث العقارية',
+            'title_ar' => 'المفكرة العقارية',
             'route_key' => 'events',
-            'title_en' => 'Event',
+            'title_en' => 'Real Estate Notebook',
             'model' => 'Event',
             'model_name' => 'App\Models\Event',
             "is_menu" => '1',
