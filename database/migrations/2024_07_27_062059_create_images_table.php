@@ -13,7 +13,19 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('offer_id');
+            $table->unsignedBigInteger('offer_id')->nullable();
+            $table->unsignedBigInteger('event_id')->nullable();
+
+            $table->foreign('offer_id')
+                ->references('id')
+                ->on('offers')
+                ->onDelete('cascade');
+
+            $table->foreign('event_id')
+                ->references('id')
+                ->on('events')
+                ->onDelete('cascade');
+
             $table->string('path');
             $table->timestamps();
         });

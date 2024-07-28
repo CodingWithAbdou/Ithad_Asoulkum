@@ -59,14 +59,15 @@
                                 data="{{ isset($data) ? $data->category : '' }}" :list="\App\Models\Category::all()" optionValue="key"
                                 optionName="{{ 'name_' . getLocale() }}" />
 
+                            <x-inputs.text label="{{ __('dash.area') }}" name="area" required=""
+                                data="{{ isset($data) ? $data->area : '' }}" />
+
                             <x-inputs.number label="{{ __('dash.price') }}" name="price" required=""
                                 data="{{ isset($data) ? $data->price : '' }}" />
+
                             <x-inputs.select label="{{ __('dash.currency') }}" name="currency" required=""
                                 data="{{ isset($data) ? $data->currency : '' }}" :list="$currency" optionValue="value"
                                 optionName="name" />
-
-                            <x-inputs.text label="{{ __('dash.area') }}" name="area" required=""
-                                data="{{ isset($data) ? $data->area : '' }}" />
 
                             <x-inputs.text label="{{ __('dash.city') . ' Ar' }}" name="city_ar" required=""
                                 data="{{ isset($data) ? $data->city_ar : '' }}" />

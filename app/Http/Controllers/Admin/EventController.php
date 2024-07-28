@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\Image;
 use App\Models\ProjectModel;
 use Illuminate\Http\Request;
 
@@ -51,11 +52,21 @@ class EventController extends Controller
             'phone' => 'required|min:8',
             'organizer_ar' => 'required',
             'organizer_en' => 'required',
+            'images[]' => 'nullable',
         ]);
 
         $input = $request->all();
 
-        Event::create($input);
+        unset($input['images']);
+        $event = Event::create($input);
+        if ($request->images) {
+            foreach ($request->images as $image) {
+                Image::create([
+                    'event_id' => $event->id,
+                    'path' => generalUpload('Event', $image)
+                ]);
+            }
+        }
 
         $status = true;
         $msg = __('dash.created successfully');
@@ -91,10 +102,23 @@ class EventController extends Controller
             'phone' => 'required|min:8',
             'organizer_ar' => 'required',
             'organizer_en' => 'required',
+            "images" => "nullable",
         ]);
 
         $input = $request->all();
+        unset($input['images']);
         $obj->update($input);
+
+        if ($request->images) {
+            $keys = array_keys($request->images);
+            // dd($keys);
+            $images = Image::wherein('id', $keys)->get();
+            foreach ($images as $image) {
+                $image->update([
+                    'path' => generalUpload('Event', $request->images[$image->id])
+                ]);
+            }
+        }
 
 
         $status = true;
