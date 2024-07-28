@@ -50,7 +50,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
 
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth','twoFactor'], function () {
     Route::get('dashboard', [HomeDashController::class, 'index'])->name('dashboard.home');
 
     // item order
