@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerificationCode;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,13 +29,40 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-      //  event(new Registered($user));
-      $user->generateCode();
+        $user->generateCode();
+
+        // Send verification email
+        Mail::to($user->email)->send(new VerificationCode($user->code));
+
+        return redirect()->route('dashboard.verify.show')->with('email', $user->email);
+    }
+
+    public function showVerificationForm()
+    {
+        return view('admin.auth.verify');
+    }
+
+    public function verifyEmail(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|array|size:6',
+            'code.*' => 'required|numeric|digits:1',
+        ]);
+
+        $code = implode('', $request->code);
+        $user = User::where('code', $code)->where('expire', '>', now())->first();
+
+        if (!$user) {
+            return back()->withErrors(['code' => 'Invalid or expired code.']);
+        }
+
+        $user->email_verified_at = now();
+        $user->code = null;
+        $user->expire = null;
+        $user->save();
 
         Auth::login($user);
-     //   $user=User::where('email',$this->input('eamil')->first());
-        echo $user;
-                return redirect()->route('dashboard.home');
-       // return redirect()->route('dashboard.profile.complete');
+
+        return redirect()->route('dashboard.home');
     }
 }
