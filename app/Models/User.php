@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable implements  MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -54,4 +54,13 @@ class User extends Authenticatable implements  MustVerifyEmail
         $this->expire=now()->addMinutes(15);
         $this->save();
     }
+
+
+
+    public function offers()
+    {
+        return $this->hasMany(Offer::class);
+    }
 }
+
+
