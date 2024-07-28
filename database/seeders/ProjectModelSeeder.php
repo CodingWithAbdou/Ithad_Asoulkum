@@ -113,7 +113,7 @@ class ProjectModelSeeder extends Seeder
             'model' => 'Event',
             'model_name' => 'App\Models\Event',
             "is_menu" => '1',
-            "icon" =>  'fa fa-bolt',
+            "icon" =>  'fa fa-lightbulb',
             "order_by" => '1'
         ]);
     }

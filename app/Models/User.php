@@ -56,10 +56,17 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->save();
     }
 
-
-
     public function offers()
     {
         return $this->hasMany(Offer::class);
+    }
+
+    public function Role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function hasRole($roleName)
+    {
+        return  $this->Role()->whereName($roleName)->first() ? true : false;
     }
 }
