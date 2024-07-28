@@ -31,16 +31,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
+// home page
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/store', [HomeController::class, 'store'])->name('form.store');
 
+// change lang
 Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switchLang');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
+// join form
+Route::get('join_us', [JoinUsController::class, 'show'])->name('join_us.show');
+Route::post('join_us/store', [JoinUsController::class, 'join'])->name('join_us.store');
+
+// Page Faq and about
+Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
+Route::get('about', [AboutController::class, 'index'])->name('about.index');
+
+// when user gest to the login page
+Route::group(['middleware' => 'guest'], function () {
     Route::get('login', [LoginController::class, 'index'])->name('dashboard.login.index');
     Route::post('login/submit', [LoginController::class, 'login'])->name('dashboard.login.form');
     Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('dashboard.register');
@@ -51,7 +58,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
     Route::post('complete-profile', [RegisterController::class, 'completeProfile'])->name('dashboard.profile.complete.submit');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'role'], function () {
+
+// pages show just to admin role
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('dashboard', [HomeDashController::class, 'index'])->name('dashboard.home');
 
     // item order
@@ -60,7 +69,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role'], function () {
 
     //logout
     Route::get('logout', [LoginController::class, 'logout'])->name('dashboard.logout');
-
 
     //profile
     Route::get('profile', [ProfileController::class, 'index'])->name('dashboard.profile.index');
@@ -117,9 +125,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role'], function () {
     Route::delete('offers/{obj}/delete', [OfferController::class, 'destroy'])->name('dashboard.offers.destroy');
 });
 
-Route::post('join_us/store', [JoinUsController::class, 'join'])->name('join_us.store');
-Route::get('join_us', [JoinUsController::class, 'show'])->name('join_us.show');
 
-Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
-
-Route::get('about', [AboutController::class, 'index'])->name('about.index');
+// pages show just to agent role
+Route::group(['prefix' => 'admin', 'middleware' => 'agent'], function () {
+    // here add route agent
+});
