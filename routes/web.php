@@ -128,5 +128,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
 // pages show just to agent role
 Route::group(['prefix' => 'admin', 'middleware' => 'agent'], function () {
-    // here add route agent
+    // here add route
 });
