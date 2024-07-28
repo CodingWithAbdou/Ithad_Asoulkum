@@ -119,6 +119,7 @@ class ProjectModelSeeder extends Seeder
         ]);
         ProjectModel::create([
             'parent_id' => '0',
+            'role_id' => '2',
             'title_ar' => 'المفكرة العقارية',
             'route_key' => 'events',
             'title_en' => 'Real Estate Notebook',

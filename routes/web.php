@@ -66,14 +66,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/{segment}/re-order/{id?}', [ReorderController::class, 'index'])->name('dashboard.reorder.index');
     Route::post('/re-order/update', [ReorderController::class, 'update'])->name('dashboard.reorder.update');
 
-    //logout
-    Route::get('logout', [LoginController::class, 'logout'])->name('dashboard.logout');
-
-    //profile
-    Route::get('profile', [ProfileController::class, 'index'])->name('dashboard.profile.index');
-    Route::post('profile/update', [ProfileController::class, 'update'])->name('dashboard.profile.update');
-    Route::get('password', [ProfileController::class, 'password'])->name('dashboard.password.index');
-    Route::post('password/change', [ProfileController::class, 'update_password'])->name('dashboard.password.update');
 
     //admins
     Route::get('admins', [UserController::class, 'index'])->name('dashboard.admins.index');
@@ -83,13 +75,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('users/{obj}/edit', [UserController::class, 'edit'])->name('dashboard.users.edit');
     Route::post('users/{obj}/update', [UserController::class, 'update'])->name('dashboard.users.update');
     Route::delete('users/{obj}/delete', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
-
-    //agents
-    // Route::get('agents/create', [UserController::class, 'create'])->name('dashboard.agents.create');
-    // Route::post('agents/store', [UserController::class, 'store'])->name('dashboard.agents.store');
-    // Route::get('agents/{obj}/edit', [UserController::class, 'edit'])->name('dashboard.agents.edit');
-    // Route::post('agents/{obj}/update', [UserController::class, 'update'])->name('dashboard.agents.update');
-    // Route::delete('agents/{obj}/delete', [UserController::class, 'destroy'])->name('dashboard.agents.destroy');
 
     //settings
     Route::get('/settings', [SettingController::class, 'index'])->name('dashboard.settings.index');
@@ -119,6 +104,28 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('offers', [OfferController::class, 'index'])->name('dashboard.offers.index');
     Route::get('offers/{obj}/edit', [OfferController::class, 'edit'])->name('dashboard.offers.edit');
     Route::post('offers/{obj}/update', [OfferController::class, 'update'])->name('dashboard.offers.update');
+});
+
+// both admin and agent can show this pages
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+    //home page
+    Route::get('dashboard', [HomeDashController::class, 'index'])->name('dashboard.home')->middleware('auth');
+
+    //logout
+    Route::get('logout', [LoginController::class, 'logout'])->name('dashboard.logout');
+
+    //profile
+    Route::get('profile', [ProfileController::class, 'index'])->name('dashboard.profile.index');
+    Route::post('profile/update', [ProfileController::class, 'update'])->name('dashboard.profile.update');
+    Route::get('password', [ProfileController::class, 'password'])->name('dashboard.password.index');
+    Route::post('password/change', [ProfileController::class, 'update_password'])->name('dashboard.password.update');
+
+
+    // offer for all auth
+    Route::get('offers/show', [OfferController::class, 'show'])->name('dashboard.my_offers.index');
+    Route::get('offers/create', [OfferController::class, 'create'])->name('dashboard.offers.create');
+    Route::post('offers/store', [OfferController::class, 'store'])->name('dashboard.offers.store');
+    Route::delete('offers/{obj}/delete', [OfferController::class, 'destroy'])->name('dashboard.offers.destroy');
 
     //Events
     Route::get('events', [EventController::class, 'index'])->name('dashboard.events.index');
@@ -127,18 +134,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('events/{obj}/edit', [EventController::class, 'edit'])->name('dashboard.events.edit');
     Route::post('events/{obj}/update', [EventController::class, 'update'])->name('dashboard.events.update');
     Route::delete('events/{obj}/delete', [EventController::class, 'destroy'])->name('dashboard.events.destroy');
-});
-
-// both admin and agent can show this pages
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
-    //home page
-    Route::get('dashboard', [HomeDashController::class, 'index'])->name('dashboard.home')->middleware('auth');
-
-    // offer for all auth
-    Route::get('offers/show', [OfferController::class, 'show'])->name('dashboard.my_offers.index');
-    Route::get('offers/create', [OfferController::class, 'create'])->name('dashboard.offers.create');
-    Route::post('offers/store', [OfferController::class, 'store'])->name('dashboard.offers.store');
-    Route::delete('offers/{obj}/delete', [OfferController::class, 'destroy'])->name('dashboard.offers.destroy');
 });
 
 
