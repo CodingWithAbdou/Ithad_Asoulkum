@@ -16,13 +16,14 @@ class ProjectModelSeeder extends Seeder
 
         ProjectModel::create([
             'parent_id' => '3',
-            'route_key' => 'users',
-            'title_ar' => 'المستخدمين',
-            'title_en' => 'Users',
+            'route_key' => 'admins',
+            'title_ar' => 'المدراء',
+            'title_en' => 'Admins',
             "is_menu" => '1',
             "icon" =>  'fas fa-users',
             "order_by" => '1'
         ]);
+
         ProjectModel::create([
             'parent_id' => '3',
             'route_key' => 'settings',
@@ -40,6 +41,7 @@ class ProjectModelSeeder extends Seeder
             "icon" =>  'fas fa-users-cog',
             "order_by" => '1'
         ]);
+
 
         ProjectModel::create([
             'parent_id' => '0',
@@ -124,6 +126,16 @@ class ProjectModelSeeder extends Seeder
             'model_name' => 'App\Models\Event',
             "is_menu" => '1',
             "icon" =>  'fa fa-lightbulb',
+            "order_by" => '1'
+        ]);
+
+        ProjectModel::create([
+            'parent_id' => '3',
+            'route_key' => 'agents',
+            'title_ar' => 'الوسطاء',
+            'title_en' => 'Agents',
+            "is_menu" => '1',
+            "icon" =>  'fas fa-users',
             "order_by" => '1'
         ]);
     }

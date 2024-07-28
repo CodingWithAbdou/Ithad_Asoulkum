@@ -51,10 +51,10 @@
                                     </div>
                                 </div>
                             </td>
-                            {{-- <td><div class="badge badge-light-success">{{$record->Role?$record->Role->name:''}}</div></td> --}}
                             <td>
-                                <div class="badge badge-light-success">Admin</div>
+                                <div class="badge badge-light-success">{{ $record->Role ? $record->Role->name : '' }}</div>
                             </td>
+
                             <td>{{ $record->created_at }}</td>
                             <x-action-btn.users :record="$record" />
                         </tr>
