@@ -61,7 +61,6 @@ Route::group(['middleware' => 'guest'], function () {
 
 // pages show just to admin role
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
-    Route::get('dashboard', [HomeDashController::class, 'index'])->name('dashboard.home');
 
     // item order
     Route::get('/{segment}/re-order/{id?}', [ReorderController::class, 'index'])->name('dashboard.reorder.index');
@@ -108,6 +107,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('join_us', [JoinUsController::class, 'index'])->name('dashboard.join_us.index');
     Route::delete('join_us/{obj}/delete', [JoinUsController::class, 'destroy'])->name('dashboard.join_us.destroy');
 
+    //Offers Just for admin
+    Route::get('offers', [OfferController::class, 'index'])->name('dashboard.offers.index');
+    Route::get('offers/{obj}/edit', [OfferController::class, 'edit'])->name('dashboard.offers.edit');
+    Route::post('offers/{obj}/update', [OfferController::class, 'update'])->name('dashboard.offers.update');
+
     //Events
     Route::get('events', [EventController::class, 'index'])->name('dashboard.events.index');
     Route::get('events/create', [EventController::class, 'create'])->name('dashboard.events.create');
@@ -115,18 +119,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('events/{obj}/edit', [EventController::class, 'edit'])->name('dashboard.events.edit');
     Route::post('events/{obj}/update', [EventController::class, 'update'])->name('dashboard.events.update');
     Route::delete('events/{obj}/delete', [EventController::class, 'destroy'])->name('dashboard.events.destroy');
+});
 
-    //Offers
-    Route::get('offers', [OfferController::class, 'index'])->name('dashboard.offers.index');
+
+// both admin and agent can show this pages
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+    //home page
+    Route::get('dashboard', [HomeDashController::class, 'index'])->name('dashboard.home')->middleware('auth');
+
+    // offer for all auth
+    Route::get('offers/show', [OfferController::class, 'show'])->name('dashboard.my_offers.index');
     Route::get('offers/create', [OfferController::class, 'create'])->name('dashboard.offers.create');
     Route::post('offers/store', [OfferController::class, 'store'])->name('dashboard.offers.store');
-    Route::get('offers/{obj}/edit', [OfferController::class, 'edit'])->name('dashboard.offers.edit');
-    Route::post('offers/{obj}/update', [OfferController::class, 'update'])->name('dashboard.offers.update');
     Route::delete('offers/{obj}/delete', [OfferController::class, 'destroy'])->name('dashboard.offers.destroy');
 });
 
 
 // pages show just to agent role
 Route::group(['prefix' => 'admin', 'middleware' => 'agent'], function () {
-    // here add route
 });

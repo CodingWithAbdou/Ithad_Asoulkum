@@ -107,6 +107,16 @@ class ProjectModelSeeder extends Seeder
 
         ProjectModel::create([
             'parent_id' => '0',
+            'role_id' => '2',
+            'title_ar' => 'عروضي العقارية',
+            'route_key' => 'my_offers',
+            'title_en' => 'My real estate offers',
+            "is_menu" => '1',
+            "icon" =>  'fa fa-th',
+            "order_by" => '1'
+        ]);
+        ProjectModel::create([
+            'parent_id' => '0',
             'title_ar' => 'المفكرة العقارية',
             'route_key' => 'events',
             'title_en' => 'Real Estate Notebook',

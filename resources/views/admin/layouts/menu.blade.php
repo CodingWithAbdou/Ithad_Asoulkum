@@ -31,24 +31,24 @@
             data-kt-scroll-offset="0">
             <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                 id="#kt_aside_menu" data-kt-menu="true" data-kt-menu-expand="false">
-                @admin
-                    <div class="menu-item">
-                        <a class="menu-link {{ Route::is('dashboard.home') ? 'active' : '' }}"
-                            href="{{ route('dashboard.home') }}">
-                            <span class="menu-icon">
-                                <span class="svg-icon svg-icon-2">
-                                    <i class="fas fa-home"></i>
-                                </span>
+
+                <div class="menu-item">
+                    <a class="menu-link {{ Route::is('dashboard.home') ? 'active' : '' }}"
+                        href="{{ route('dashboard.home') }}">
+                        <span class="menu-icon">
+                            <span class="svg-icon svg-icon-2">
+                                <i class="fas fa-home"></i>
                             </span>
-                            <span class="menu-title">{{ __('dash.home') }}</span>
-                        </a>
-                    </div>
+                        </span>
+                        <span class="menu-title">{{ __('dash.home') }}</span>
+                    </a>
+                </div>
+                @admin
                     @php
                         $parent_models = \App\Models\ProjectModel::where('is_menu', 1)
                             ->where('parent_id', 0)
                             ->with('SubModel')
                             ->orderBy('order_by', 'asc')
-                            ->where('role_id', 1)
                             ->get();
                     @endphp
                 @endadmin
