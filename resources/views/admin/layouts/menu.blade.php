@@ -33,34 +33,47 @@
                 id="#kt_aside_menu" data-kt-menu="true" data-kt-menu-expand="false">
 
                 <div class="menu-item">
-                    <span class="menu-icon">
-                        <span class="svg-icon svg-icon-2">
-                            <i class="fas fa-home"></i>
+                    <a class="menu-link {{ Route::is('dashboard.home') ? 'active' : '' }}"
+                        href="{{ route('dashboard.home') }}">
+                        <span class="menu-icon">
+                            <span class="svg-icon svg-icon-2">
+                                <i class="fas fa-home"></i>
+                            </span>
                         </span>
-                    </span>
-                    <span class="menu-title">{{ __('dash.home') }}</span>
+                        <span class="menu-title">{{ __('dash.home') }}</span>
                     </a>
                 </div>
-
-                @php
-                    $parent_models = \App\Models\ProjectModel::where('is_menu', 1)
-                        ->where('parent_id', 0)
-                        ->with('SubModel')
-                        ->orderBy('order_by', 'asc')
-                        ->get();
-                @endphp
-
+                @admin
+                    @php
+                        $parent_models = \App\Models\ProjectModel::where('is_menu', 1)
+                            ->where('parent_id', 0)
+                            ->with('SubModel')
+                            ->orderBy('order_by', 'asc')
+                            ->get();
+                    @endphp
+                @endadmin
+                @agent
+                    @php
+                        $parent_models = \App\Models\ProjectModel::where('is_menu', 1)
+                            ->where('parent_id', 0)
+                            ->with('SubModel')
+                            ->orderBy('order_by', 'asc')
+                            ->where('role_id', 2)
+                            ->get();
+                    @endphp
+                @endagent
                 @foreach ($parent_models as $item)
                     @if (count($item->SubModel) == 0)
                         {{-- @can('admin.' . $item->route_key . '.view') --}}
                         <?php $url = 'dashboard.' . $item->route_key . '.index'; ?>
                         <div class="menu-item">
-                            <span class="menu-icon">
-                                <span class="svg-icon svg-icon-2">
-                                    <i class="{{ $item->icon }}"></i>
+                            <a class="menu-link {{ Route::is($url) ? 'active' : '' }}" href="{{ route($url) }}">
+                                <span class="menu-icon">
+                                    <span class="svg-icon svg-icon-2">
+                                        <i class="{{ $item->icon }}"></i>
+                                    </span>
                                 </span>
-                            </span>
-                            <span class="menu-title">{{ $item->{'title_' . app()->getLocale()} }}</span>
+                                <span class="menu-title">{{ $item->{'title_' . app()->getLocale()} }}</span>
                             </a>
                         </div>
                         {{-- @endcan --}}
@@ -74,10 +87,10 @@
                         @if ($subCount > 0)
                             <div data-kt-menu-trigger="click"
                                 class="menu-item
-                                @foreach ($item->SubModel as $subItem)
-                                    <?php $url = 'dashboard.' . $subItem->route_key . '.index'; ?>
-                                    {{ str_contains(Route::currentRouteName(), $subItem->route_key) ? 'here show menu-accordion' : 'menu-accordion' }} @endforeach
-                            ">
+                            @foreach ($item->SubModel as $subItem)
+                                <?php $url = 'dashboard.' . $subItem->route_key . '.index'; ?>
+                                {{ str_contains(Route::currentRouteName(), $subItem->route_key) ? 'here show menu-accordion' : 'menu-accordion' }} @endforeach
+                        ">
                                 <span class="menu-link">
                                     <span class="menu-icon">
                                         <i class="{{ $item->icon }}"></i>
@@ -106,7 +119,10 @@
                             </div>
                         @endif
                     @endif
+
                 @endforeach
+
+
             </div>
         </div>
     </div>

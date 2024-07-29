@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('project_models', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger("parent_id");
+            $table->tinyInteger("role_id")->default(1);
             $table->string("route_key")->nullable();
             $table->string('title_ar');
             $table->string('title_en');
             $table->tinyInteger("is_menu");
             $table->string('icon');
-            $table->integer('order_by')->nullable();;
-
+            $table->integer('order_by')->nullable();
             $table->string('model')->nullable();
             $table->string('model_name')->nullable();
 

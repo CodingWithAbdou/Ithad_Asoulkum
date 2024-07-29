@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Carbon\Carbon;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -53,16 +54,24 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
     public function generateCode()
     {
-        $this->timestamps=false;
-        $this->code=rand(100000,999999);
-        $this->expire=now()->addMinutes(15);
+        $this->timestamps = false;
+        $this->code = rand(100000, 999999);
+        $this->expire = now()->addMinutes(15);
         $this->save();
     }
-
-
 
     public function offers()
     {
         return $this->hasMany(Offer::class);
     }
+ public function Role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function hasRole($roleName)
+    {
+        return  $this->Role()->whereName($roleName)->first() ? true : false;
+    }
+
+   
 }

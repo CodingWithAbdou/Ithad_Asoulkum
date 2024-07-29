@@ -26,11 +26,6 @@
         action="{{ isset($data) ? route('dashboard.' . $model->route_key . '.update', $data) : route('dashboard.' . $model->route_key . '.store') }}"
         class="form d-flex flex-column flex-lg-row">
 
-        {{-- <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px min-w-lg-300px mb-7 me-lg-10">
-            <x-inputs.image label="{{ __('dash.image') }}" name="image" required=""
-                data="{{ isset($data) ? $data->image : '' }}" />
-        </div> --}}
-
         <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
             <div class="card card-flush py-4">
                 <div class="card-header">
@@ -45,16 +40,16 @@
                         <x-inputs.text label="{{ __('dash.title') . ' en' }}" name="title_en" required=""
                             data="{{ isset($data) ? $data->title_en : '' }}" />
 
+                        <x-inputs.date label="{{ __('dash.date_start') }}" name="date_start" required=""
+                            data="{{ isset($data) ? substr($data->date_start, 0, 10) : '' }}" />
+
+                        <x-inputs.date label="{{ __('dash.date_end') }}" name="date_end" required=""
+                            data="{{ isset($data) ? substr($data->date_end, 0, 10) : '' }}" />
+
                         <x-inputs.text label="{{ __('dash.type') . ' ar' }}" name="type_ar" required=""
                             data="{{ isset($data) ? $data->type_ar : '' }}" />
                         <x-inputs.text label="{{ __('dash.type') . ' en' }}" name="type_en" required=""
                             data="{{ isset($data) ? $data->type_en : '' }}" />
-
-                        <x-inputs.text label="{{ __('dash.note') . ' ar' }}" name="note_ar" required=""
-                            data="{{ isset($data) ? $data->note_ar : '' }}" />
-
-                        <x-inputs.text label="{{ __('dash.note') . ' en' }}" name="note_en" required=""
-                            data="{{ isset($data) ? $data->note_en : '' }}" />
 
                         <x-inputs.text label="{{ __('dash.place') . ' ar' }}" name="place_ar" required=""
                             data="{{ isset($data) ? $data->place_ar : '' }}" />
@@ -62,12 +57,32 @@
                         <x-inputs.text label="{{ __('dash.place') . ' en' }}" name="place_en" required=""
                             data="{{ isset($data) ? $data->place_en : '' }}" />
 
+                        <x-inputs.text label="{{ __('dash.organizer') . ' ar' }}" name="organizer_ar" required=""
+                            data="{{ isset($data) ? $data->organizer_ar : '' }}" />
+
+                        <x-inputs.text label="{{ __('dash.organizer') . ' en' }}" name="organizer_en" required=""
+                            data="{{ isset($data) ? $data->organizer_en : '' }}" />
+
                         <x-inputs.phone label="{{ __('dash.phone') }}" name="phone" required=""
                             data="{{ isset($data) ? $data->phone : '' }}" />
 
-                        <x-inputs.date label="{{ __('dash.date') }}" name="date" required=""
-                            data="{{ isset($data) ? $data->date : '' }}" />
-
+                        @if (isset($data))
+                            <div class="col-md-6 mb-10">
+                            </div>
+                            @foreach ($data->images as $image)
+                                <div class="col-md-6">
+                                    <x-inputs.image label="{{ __('dash.image') . ' ' . $loop->index + 1 }}"
+                                        name="images[{{ $image->id }}]" required="" data="{{ $image->path }}" />
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="col-md-6 mb-10">
+                                <label class="form-label" class="form-label"
+                                    for="">{{ __('dash.events_image') }}</label>
+                                <input class="form-select form-select-solid custom-file-input"
+                                    accept=".png, .svg, .jpg, .jpeg, .webp" type="file" name="images[]" multiple>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
