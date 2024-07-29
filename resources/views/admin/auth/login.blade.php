@@ -1,3 +1,5 @@
+<!--login.blade.php-->
+
 @extends('admin.layouts.auth')
 
 @section('content')

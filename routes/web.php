@@ -48,11 +48,14 @@ Route::post('verify-email', [RegisterController::class, 'verifyEmail'])->name('d
 Route::get('complete-profile', [RegisterController::class, 'showCompleteProfileForm'])->name('dashboard.profile.complete.show');
 Route::post('complete-profile', [RegisterController::class, 'completeProfile'])->name('dashboard.profile.complete.submit');
 
-
 Route::get('forgot-password', [LoginController::class, 'showForgotPasswordForm'])->name('password.request');
-Route::post('forgot-password', [LoginController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('reset-password/{token}', [LoginController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('forgot-password', [LoginController::class, 'sendResetOTP'])->name('password.email');
+Route::get('verify-code', [LoginController::class, 'showVerifyCodeForm'])->name('password.verify');
+Route::post('verify-code', [LoginController::class, 'verifyCode'])->name('password.verify.submit');
+Route::get('reset-password', [LoginController::class, 'showResetPasswordForm'])->name('password.reset');
 Route::post('reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
+
+
 
 Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
   

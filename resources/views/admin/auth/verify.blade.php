@@ -1,3 +1,4 @@
+<!--verify-->
 @extends('admin.layouts.auth')
 
 @section('content')

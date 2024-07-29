@@ -10,11 +10,11 @@
                     <form method="POST" action="{{ route('password.email') }}" class="w-100">
                         @csrf
                         <div class="mb-10">
-                            <label class="form-label fs-6 fw-bolder text-dark">{{ __('dash.email') }}</label>
+                            <label class="form-label fs-6 fw-bolder text-dark">Email</label>
                             <input class="form-control form-control-lg form-control-solid" type="email" name="email"
                                 required />
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Send Password Reset Link</button>
+                        <button type="submit" class="btn btn-primary w-100">Send Password OTP</button>
                     </form>
                     <div class="text-center mt-5">
                         <a href="{{ route('dashboard.login.index') }}">Back to Login</a>

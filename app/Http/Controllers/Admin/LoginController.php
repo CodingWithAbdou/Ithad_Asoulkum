@@ -1,12 +1,18 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Mail\ResetPasswordOTP;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerificationCode;
 
 class LoginController extends Controller
 {
@@ -18,7 +24,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|exists:users',
+            'email' => 'required|exists:users,email',
             'password' => 'required',
         ]);
 
@@ -46,52 +52,92 @@ class LoginController extends Controller
         return redirect()->route('dashboard.login.index');
     }
 
-    public function showForgotPasswordForm()
-    {
-        return view('admin.auth.forgot-password');
-    }
+   
 
     public function sendResetLinkEmail(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
+        $request->validate(['email' => 'required|email|exists:users,email']);
 
         $status = Password::sendResetLink(
             $request->only('email')
         );
 
         return $status === Password::RESET_LINK_SENT
-                    ? back()->with(['status' => __($status)])
-                    : back()->withErrors(['email' => __($status)]);
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     }
 
-    public function showResetPasswordForm($token)
+   
+    public function showForgotPasswordForm()
     {
-        return view('admin.auth.reset-password', ['token' => $token]);
+        return view('admin.auth.forgot-password');
+    }
+
+    public function sendResetOTP(Request $request)
+    {
+        $request->validate(['email' => 'required|email|exists:users,email']);
+    
+        $user = User::where('email', $request->email)->first();
+        $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        $user->update([
+            'code' => $otp,
+            'expire' => now()->addMinutes(10)
+        ]);
+        
+        Mail::to($user->email)->send(new ResetPasswordOTP($otp));
+    
+        return redirect()->route('password.verify')->with(['email' => $user->email, 'status' => 'Reset code sent to your email']);
+    }
+
+    public function showVerifyCodeForm()
+    {
+        return view('admin.auth.verify');
+    }
+
+    public function verifyCode(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'code' => 'required|array|size:6',
+            'code.*' => 'required|numeric|digits:1',
+        ]);
+
+        $code = implode('', $request->code);
+        $user = User::where('email', $request->email)->where('code', $code)->where('expire', '>', now())->first();
+
+        if (!$user) {
+            return back()->withErrors(['code' => 'Invalid or expired code.']);
+        }
+
+        return redirect()->route('password.reset')->with(['email' => $user->email]);
+    }
+
+    public function showResetPasswordForm(Request $request)
+    {
+        return view('admin.auth.reset-password')->with('email', $request->email);
     }
 
     public function resetPassword(Request $request)
     {
         $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
+            'code' => 'required|array|size:6',
+            'code.*' => 'required|numeric|digits:1',
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
+        $code = implode('', $request->code);
+        $user = User::where('email', $request->email)->where('code', $code)->where('expire', '>', now())->first();
 
-                $user->save();
+        if (!$user) {
+            return back()->withErrors(['code' => 'Invalid or expired code.']);
+        }
 
-                event(new PasswordReset($user));
-            }
-        );
+        $user->password = Hash::make($request->password);
+        $user->code = null;
+        $user->expire = null;
+        $user->save();
 
-        return $status === Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withErrors(['email' => [__($status)]]);
+        return redirect()->route('dashboard.login.index')->with('status', 'Password has been reset successfully');
     }
 }
