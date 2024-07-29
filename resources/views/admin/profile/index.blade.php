@@ -12,7 +12,6 @@
                 <a href="{{ route('dashboard.home') }}" class="text-gray-600 text-hover-primary">{{ __('dash.home') }}</a>
             </li>
             <li class="breadcrumb-item text-gray-600">{{ __('dash.profile') }}</li>
-            <li class="breadcrumb-item text-dark">{{ $model->{'title_' . app()->getLocale()} }}</li>
 
         </ul>
         <!--end::Breadcrumb-->

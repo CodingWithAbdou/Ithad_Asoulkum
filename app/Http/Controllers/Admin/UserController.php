@@ -8,13 +8,22 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 
 class UserController extends Controller
 {
     public $model;
+    public $route_key;
 
-    public function __construct() {
-        $this->model = ProjectModel::where('route_key', 'users')->first();
+    public function __construct()
+    {
+        $currentRouteName = Route::currentRouteName();
+        if ($currentRouteName[1] == 'admins') {
+            $this->route_key = 'admins';
+        } else {
+            $this->route_key = 'agents';
+        }
+        $this->model = ProjectModel::where('route_key', $this->route_key)->first();
         view()->share('model', $this->model);
     }
 
@@ -23,8 +32,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::orderBy('created_at', 'desc')->get();
-        return view('admin.users.index' , compact('data'));
+        if ($this->route_key == 'admins') {
+            $data = User::where('role_id', '1')->orderBy('created_at', 'desc')->get();
+        } else {
+            $data = User::where('role_id', '2')->orderBy('created_at', 'desc')->get();
+        }
+        return view('admin.users.index', compact('data'));
     }
 
     /**
@@ -45,19 +58,19 @@ class UserController extends Controller
             'email' => 'required|email:rfc,dns|unique:users,email',
             'password' => 'required|confirmed',
             'password_confirmation' => 'required',
-            'image' => 'nullable|max:'.getMaxSize().'|mimes:'.acceptImageType(0),
+            'image' => 'nullable|max:' . getMaxSize() . '|mimes:' . acceptImageType(0),
         ]);
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-        if($request->image){
+        if ($request->image) {
             $input['image'] = generalUpload('User', $request->image);
         }
         $data = User::create($input);
 
         $status = true;
         $msg = __('dash.created successfully');
-        $url = route('dashboard.'.$this->model->route_key.'.index');
+        $url = route('dashboard.' . $this->model->route_key . '.index');
 
         return response()->json(compact('status', 'msg', 'url'));
     }
@@ -85,22 +98,22 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email:rfc,dns|unique:users,email,'.$obj->id,
-            'phone' => 'nullable|size:17|unique:users,phone,'.$obj->id,
-            'image' => 'nullable|max:'.getMaxSize().'|mimes:'.acceptImageType(0),
+            'email' => 'required|email:rfc,dns|unique:users,email,' . $obj->id,
+            'phone' => 'nullable|size:17|unique:users,phone,' . $obj->id,
+            'image' => 'nullable|max:' . getMaxSize() . '|mimes:' . acceptImageType(0),
         ]);
 
         $input = $request->all();
 
-        if(!$request->get('password')){
+        if (!$request->get('password')) {
             $input = Arr::except($input, ['password']);
-        }else{
+        } else {
             $input['password'] = Hash::make($input['password']);
         }
 
-        if($request->image){
+        if ($request->image) {
             $input['image'] = generalUpload($this->model->model, $request->image);
-        }else{
+        } else {
             $input['image'] = $obj->image;
         }
 
@@ -109,10 +122,9 @@ class UserController extends Controller
 
         $status = true;
         $msg = __('dash.updated successfully');
-        $url = route('dashboard.'.$this->model->route_key.'.index');
+        $url = route('dashboard.' . $this->model->route_key . '.index');
 
         return response()->json(compact('status', 'msg', 'url'));
-
     }
 
     /**
@@ -124,7 +136,7 @@ class UserController extends Controller
             $obj->delete();
             $status = true;
             $msg = __('dash.deleted_successfully');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $status = false;
             $msg = $e->getMessage();
         }
