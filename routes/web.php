@@ -37,16 +37,18 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/store', [HomeController::class, 'store'])->name('form.store');
 
 Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switchLang');
-
+Route::get('login', [LoginController::class, 'index'])->name('dashboard.login.index');
+Route::get('verify-email', [RegisterController::class, 'showVerificationForm'])->name('dashboard.verify.show');
+Route::post('verify-email', [RegisterController::class, 'verifyEmail'])->name('dashboard.verify.submit');
+Route::post('login/submit', [LoginController::class, 'login'])->name('dashboard.login.form');
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('dashboard.register');
+Route::post('register/submit', [RegisterController::class, 'register'])->name('dashboard.register.submit');
+Route::get('verify-email', [RegisterController::class, 'showVerificationForm'])->name('dashboard.verify.show');
+Route::post('verify-email', [RegisterController::class, 'verifyEmail'])->name('dashboard.verify.submit');
+Route::get('complete-profile', [RegisterController::class, 'showCompleteProfileForm'])->name('dashboard.profile.complete.show');
+Route::post('complete-profile', [RegisterController::class, 'completeProfile'])->name('dashboard.profile.complete.submit');
 Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
-    Route::get('login', [LoginController::class, 'index'])->name('dashboard.login.index');
-    Route::post('login/submit', [LoginController::class, 'login'])->name('dashboard.login.form');
-    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('dashboard.register');
-    Route::post('register/submit', [RegisterController::class, 'register'])->name('dashboard.register.submit');
-    Route::get('verify-email', [RegisterController::class, 'showVerificationForm'])->name('dashboard.verify.show');
-    Route::post('verify-email', [RegisterController::class, 'verifyEmail'])->name('dashboard.verify.submit');
-    Route::get('complete-profile', [RegisterController::class, 'showCompleteProfileForm'])->name('dashboard.profile.complete.show');
-    Route::post('complete-profile', [RegisterController::class, 'completeProfile'])->name('dashboard.profile.complete.submit');
+  
 
 });
 
