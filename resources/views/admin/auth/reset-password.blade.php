@@ -15,13 +15,6 @@
                     <form method="POST" action="{{ route('password.update') }}" class="w-100">
                         @csrf
                         <input type="hidden" name="email" value="{{ session('email') }}">
-                        <div class="d-flex justify-content-center mb-5">
-                            @for ($i = 0; $i < 6; $i++)
-                                <input type="text" name="code[]" class="form-control form-control-lg mx-1 text-center"
-                                    maxlength="1" required
-                                    style="width: 40px; color: #000; background-color: #fff; border: 1px solid #ccc; padding: 0.5rem;">
-                            @endfor
-                        </div>
                         <div class="mb-10">
                             <label class="form-label fs-6 fw-bolder text-dark">New Password</label>
                             <input class="form-control form-control-lg form-control-solid" type="password" name="password"

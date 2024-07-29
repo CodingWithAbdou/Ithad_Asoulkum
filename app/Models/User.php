@@ -21,11 +21,15 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
-        'email',
-        'password',
-        'image',
-        'code',
-        'expire'
+    'email',
+    'password',
+    'image',
+    'code',
+    'expire',
+    'phone_number',
+    'job_title',
+    'company',
+    'id_number'
     ];
 
     /**
@@ -62,5 +66,3 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Offer::class);
     }
 }
-
-

@@ -9,10 +9,11 @@
                 <div class="w-lg-400px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
                     <h1 class="text-center mb-5">Verify Your Email</h1>
                     <p class="text-center mb-5">Enter the 6-digit code sent to your email</p>
-                    <form method="POST" action="{{ route('dashboard.verify.submit') }}" class="w-100">
+                    <form method="POST" action="{{ route('dashboard.verify.submit.otp') }}" class="w-100">
 
                         @csrf
                         <input type="hidden" name="email" value="{{ request('email') }}">
+
 
                         <div class="d-flex justify-content-center mb-5">
                             @for ($i = 1; $i <= 6; $i++)

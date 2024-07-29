@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Mail\ResetPasswordOTP;
 
+use App\Mail\ResetPasswordOTP;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -46,28 +46,22 @@ class LoginController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect()->route('dashboard.login.index');
     }
 
-   
-
     public function sendResetLinkEmail(Request $request)
     {
         $request->validate(['email' => 'required|email|exists:users,email']);
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        $status = Password::sendResetLink($request->only('email'));
 
         return $status === Password::RESET_LINK_SENT
             ? back()->with(['status' => __($status)])
             : back()->withErrors(['email' => __($status)]);
     }
 
-   
     public function showForgotPasswordForm()
     {
         return view('admin.auth.forgot-password');
@@ -76,21 +70,26 @@ class LoginController extends Controller
     public function sendResetOTP(Request $request)
     {
         $request->validate(['email' => 'required|email|exists:users,email']);
-    
+
         $user = User::where('email', $request->email)->first();
         $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+
         $user->update([
             'code' => $otp,
-            'expire' => now()->addMinutes(10)
+            'expire' => now()->addMinutes(10),
         ]);
-        
+
         Mail::to($user->email)->send(new ResetPasswordOTP($otp));
-    
-        return redirect()->route('password.verify')->with(['email' => $user->email, 'status' => 'Reset code sent to your email']);
+
+        return redirect()->route('dashboard.verify.show', ['reset' => true, 'email' => $user->email]);
     }
 
-    public function showVerifyCodeForm()
+    public function showVerifyCodeForm(Request $request)
     {
+        if ($request->has('reset')) {
+            $request->session()->put('reset_password', true);
+        }
+
         return view('admin.auth.verify');
     }
 
@@ -103,13 +102,53 @@ class LoginController extends Controller
         ]);
 
         $code = implode('', $request->code);
-        $user = User::where('email', $request->email)->where('code', $code)->where('expire', '>', now())->first();
+
+        $user = User::where('email', $request->email)
+                    ->where('code', $code)
+                    ->where('expire', '>', now())
+                    ->first();
 
         if (!$user) {
             return back()->withErrors(['code' => 'Invalid or expired code.']);
         }
 
-        return redirect()->route('password.reset')->with(['email' => $user->email]);
+        // Check if this is a password reset or new account verification
+        if ($request->session()->has('reset_password')) {
+            // Password reset
+            $request->session()->forget('reset_password');
+
+            return redirect()->route('password.reset')->with(['email' => $user->email]);
+        } else {
+            // New account verification
+            if ($user->email_verified_at === null) {
+                $user->email_verified_at = now();
+                $user->save();
+            }
+
+            return redirect()->route('dashboard.profile.complete.show')->with(['email' => $user->email]);
+        }
+    }
+
+    public function showCompleteProfileForm()
+    {
+        return view('admin.auth.complete-profile');
+    }
+
+    public function completeProfile(Request $request)
+    {
+        $request->validate([
+            'phone_number' => 'required|string',
+            'job_title' => 'required|string',
+            'company' => 'required|string',
+            'id_number' => 'required|string',
+        ]);
+
+        $user = User::where('email', session('email'))->firstOrFail();
+        $user->update($request->only(['phone_number', 'job_title', 'company', 'id_number']));
+
+        Auth::login($user);
+
+        return redirect()->route('dashboard.home');
     }
 
     public function showResetPasswordForm(Request $request)
@@ -121,16 +160,13 @@ class LoginController extends Controller
     {
         $request->validate([
             'email' => 'required|email|exists:users,email',
-            'code' => 'required|array|size:6',
-            'code.*' => 'required|numeric|digits:1',
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $code = implode('', $request->code);
-        $user = User::where('email', $request->email)->where('code', $code)->where('expire', '>', now())->first();
+        $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return back()->withErrors(['code' => 'Invalid or expired code.']);
+            return back()->withErrors(['email' => 'User not found.']);
         }
 
         $user->password = Hash::make($request->password);
@@ -138,6 +174,10 @@ class LoginController extends Controller
         $user->expire = null;
         $user->save();
 
-        return redirect()->route('dashboard.login.index')->with('status', 'Password has been reset successfully');
+        // Log the user in automatically
+        Auth::login($user);
+
+        // Redirect to dashboard
+        return redirect()->route('dashboard.home')->with('status', 'Password has been reset successfully');
     }
 }
