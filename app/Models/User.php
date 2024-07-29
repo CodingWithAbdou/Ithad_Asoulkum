@@ -22,11 +22,15 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
-        'email',
-        'password',
-        'image',
-        'code',
-        'expire'
+    'email',
+    'password',
+    'image',
+    'code',
+    'expire',
+    'phone_number',
+    'job_title',
+    'company',
+    'id_number'
     ];
 
     /**
@@ -60,8 +64,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Offer::class);
     }
-
-    public function Role()
+ public function Role()
     {
         return $this->belongsTo(Role::class);
     }
@@ -69,4 +72,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return  $this->Role()->whereName($roleName)->first() ? true : false;
     }
+
+   
 }
