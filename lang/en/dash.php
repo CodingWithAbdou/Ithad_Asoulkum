@@ -8,6 +8,7 @@ return [
     'login' => 'Login',
     'please wait' => 'Please wait',
     'created_at' => 'Created At',
+    'create'=>'Create an Account',
     'users' => 'Users',
     'add' => 'Add',
     'users' => 'Users',
