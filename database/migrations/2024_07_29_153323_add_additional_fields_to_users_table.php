@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('verification_code', 4)->nullable();
-            $table->string('phone')->nullable();
-            $table->string('job_title')->nullable();
-            $table->string('company')->nullable();
-            $table->string('vat_number')->nullable();
+            $table->string('phone_number')->nullable()->after('email');
+            $table->string('job_title')->nullable()->after('phone_number');
+            $table->string('company')->nullable()->after('job_title');
+            $table->string('id_number')->nullable()->after('company');
         });
+  
     }
 
     /**
@@ -26,7 +26,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn(['phone_number', 'job_title', 'company', 'id_number']);
+
         });
     }
 };
