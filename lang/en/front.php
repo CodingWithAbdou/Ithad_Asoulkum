@@ -7,6 +7,7 @@ return [
     'Type of service' => 'Type of service',
     'Choose services' => 'Choose service',
     'info' => 'Type can be determined after testing the service',
+    'create _account '=>'Create an acoount',
 
     'city' => 'city',
     'price' => 'price',

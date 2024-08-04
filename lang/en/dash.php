@@ -59,5 +59,8 @@ return [
     'answer' => 'Answer',
     'reorder_data' => 'Reorder Data',
     'faqs' => 'FAQs',
+ 'password1'=>'submit',
+ 'password2'=>'Already have an account? ',
+ 'password3'=>'Sign In '
 
 ];
