@@ -63,7 +63,7 @@ return [
     'create_account1'=>'قم بتسجيل الدخول',
     'have_account'=>'ليس لديك حساب  ؟',
     'have_account1'=>'لديك حساب بالفعل ؟',
-
+'Create_an_Account'=>'أنشئ حساب',
     'reorder_data' => 'ترتيب البيانات',
     'faqs' => 'سؤال شائعة',
     // 'title' => 'عنوان',

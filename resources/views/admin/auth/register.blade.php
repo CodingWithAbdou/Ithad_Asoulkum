@@ -12,7 +12,7 @@
                     <form class="form w-100" method="POST" action="{{ route('dashboard.register.submit') }}">
                         @csrf
                         <div class="mb-10 text-center">
-                            <h1 class="text-dark mb-3">{{ __('Create an Account') }}</h1>
+                            <h1 class="text-dark mb-3">{{ __('dash.Create_an_Account') }}</h1>
                         </div>
                         @if ($errors->any())
                             <div class="alert alert-dismissible bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10">
