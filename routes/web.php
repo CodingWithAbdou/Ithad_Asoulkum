@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AboutController as AdminAboutController;
+use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\FaqPageController;
 use App\Http\Controllers\Admin\HomeDashController;
 use App\Http\Controllers\Admin\LoginController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JoinUsController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ReorderController;
 use App\Http\Controllers\ReservationController;
 use GuzzleHttp\Middleware;
@@ -29,50 +31,69 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 // home page
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/store', [HomeController::class, 'store'])->name('form.store');
 
 // change lang
 Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switchLang');
-Route::get('login', [LoginController::class, 'index'])->name('dashboard.login.index');
 
-Route::post('login/submit', [LoginController::class, 'login'])->name('dashboard.login.form');
-Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('dashboard.register');
-Route::post('register', [RegisterController::class, 'register'])->name('dashboard.register.submit');
-Route::get('verify-email', [RegisterController::class, 'showVerificationForm'])->name('dashboard.verify.register');
-Route::post('verify-email', [RegisterController::class, 'verifyEmail'])->name('dashboard.verify.submit.otp');
-Route::get('complete-profile', [RegisterController::class, 'showCompleteProfileForm'])->name('dashboard.profile.complete.show');
-Route::post('complete-profile', [RegisterController::class, 'completeProfile'])->name('dashboard.profile.complete.submit');
+// join form
+Route::get('join_us', [JoinUsController::class, 'show'])->name('join_us.show');
+Route::post('join_us/store', [JoinUsController::class, 'join'])->name('join_us.store');
 
-//Route::get('forgot-password', [LoginController::class, 'showForgotPasswordForm'])->name('password.request');
-//Route::post('forgot-password', [LoginController::class, 'sendResetOTP'])->name('password.email');
-//Route::get('verify-code', [LoginController::class, 'showVerifyCodeForm'])->name('password.verify');
-//Route::post('verify-code', [LoginController::class, 'verifyCode'])->name('password.verify.submit');
-Route::get('reset-password', [LoginController::class, 'showResetPasswordForm'])->name('password.reset');
-Route::post('reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
+// Page Faq and about
+Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
+Route::get('about', [AboutController::class, 'index'])->name('about.index');
 
 
 
 
-Route::group(['prefix' => 'admin', 'middleware' => 'guest'], function () {
-  
+
+
+
+Route::group(['middleware' => 'guest'], function () {
+    // auth
+    Route::get('login', [LoginController::class, 'index'])->name('dashboard.login.index');
+    Route::post('login/submit', [LoginController::class, 'login'])->name('dashboard.login.form');
+    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('dashboard.register');
+    Route::post('register', [RegisterController::class, 'register'])->name('dashboard.register.submit');
+    Route::get('verify-email', [RegisterController::class, 'showVerificationForm'])->name('dashboard.verify.register');
+    Route::post('verify-email', [RegisterController::class, 'verifyEmail'])->name('dashboard.verify.submit.otp');
+    Route::get('complete-profile', [RegisterController::class, 'showCompleteProfileForm'])->name('dashboard.profile.complete.show');
+    Route::post('complete-profile', [RegisterController::class, 'completeProfile'])->name('dashboard.profile.complete.submit');
+    Route::get('forgot-password', [LoginController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('forgot-password', [LoginController::class, 'sendResetOTP'])->name('password.email');
+    //Route::get('verify-code', [LoginController::class, 'showVerifyCodeForm'])->name('password.verify');
+    //Route::post('verify-code', [LoginController::class, 'verifyCode'])->name('password.verify.submit');
+    Route::get('reset-password', [LoginController::class, 'showResetPasswordForm'])->name('password.reset');
+    Route::post('reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
     Route::get('verify-code', [LoginController::class, 'showVerifyCodeForm'])->name('dashboard.verify.show');
     Route::post('verify-code', [LoginController::class, 'verifyCode'])->name('dashboard.verify.submit');
-    
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['admin','twoFactor']], function () {
-    Route::get('dashboard', [HomeDashController::class, 'index'])->name('dashboard.home');
+// pages show just to admin role and with two factor auth
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     // item order
     Route::get('/{segment}/re-order/{id?}', [ReorderController::class, 'index'])->name('dashboard.reorder.index');
     Route::post('/re-order/update', [ReorderController::class, 'update'])->name('dashboard.reorder.update');
 
+    //logout
+    Route::get('logout', [LoginController::class, 'logout'])->name('dashboard.logout');
 
-    //admins
-    Route::get('admins', [UserController::class, 'index'])->name('dashboard.admins.index');
-    Route::get('agents', [UserController::class, 'index'])->name('dashboard.agents.index');
+
+    //profile
+    Route::get('profile', [ProfileController::class, 'index'])->name('dashboard.profile.index');
+    Route::post('profile/update', [ProfileController::class, 'update'])->name('dashboard.profile.update');
+    Route::get('password', [ProfileController::class, 'password'])->name('dashboard.password.index');
+    Route::post('password/change', [ProfileController::class, 'update_password'])->name('dashboard.password.update');
+
+    //admins + agents
+    Route::get('agents', [UserController::class, 'agent'])->name('dashboard.agents.index');
+    Route::get('admins', [UserController::class, 'admin'])->name('dashboard.admins.index');
     Route::get('admins/create', [UserController::class, 'create'])->name('dashboard.users.create');
     Route::post('users/store', [UserController::class, 'store'])->name('dashboard.users.store');
     Route::get('users/{obj}/edit', [UserController::class, 'edit'])->name('dashboard.users.edit');
@@ -98,8 +119,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin','twoFactor']], funct
     Route::post('about/update', [AdminAboutController::class, 'update'])->name('dashboard.about.update');
 
 
-
-
     //reservation
     Route::get('reservations', [ReservationController::class, 'index'])->name('dashboard.reservations.index');
     Route::delete('reservations/{obj}/delete', [ReservationController::class, 'destroy'])->name('dashboard.reservations.destroy');
@@ -108,7 +127,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin','twoFactor']], funct
     Route::get('join_us', [JoinUsController::class, 'index'])->name('dashboard.join_us.index');
     Route::delete('join_us/{obj}/delete', [JoinUsController::class, 'destroy'])->name('dashboard.join_us.destroy');
 
-
     //Offers Just for admin
     Route::get('offers', [OfferController::class, 'index'])->name('dashboard.offers.index');
     Route::get('offers/{obj}/edit', [OfferController::class, 'edit'])->name('dashboard.offers.edit');
@@ -116,9 +134,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin','twoFactor']], funct
 });
 
 // both admin and agent can show this pages
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     //home page
-    Route::get('dashboard', [HomeDashController::class, 'index'])->name('dashboard.home')->middleware('auth');
+    Route::get('dashboard', [HomeDashController::class, 'index'])->name('dashboard.home');
 
     //logout
     Route::get('logout', [LoginController::class, 'logout'])->name('dashboard.logout');
@@ -128,7 +146,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('profile/update', [ProfileController::class, 'update'])->name('dashboard.profile.update');
     Route::get('password', [ProfileController::class, 'password'])->name('dashboard.password.index');
     Route::post('password/change', [ProfileController::class, 'update_password'])->name('dashboard.password.update');
-
 
     // offer for all auth
     Route::get('offers/show', [OfferController::class, 'show'])->name('dashboard.my_offers.index');
@@ -143,8 +160,4 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('events/{obj}/edit', [EventController::class, 'edit'])->name('dashboard.events.edit');
     Route::post('events/{obj}/update', [EventController::class, 'update'])->name('dashboard.events.update');
     Route::delete('events/{obj}/delete', [EventController::class, 'destroy'])->name('dashboard.events.destroy');
-});
-
-// pages show just to agent role
-Route::group(['prefix' => 'admin', 'middleware' => 'agent'], function () {
 });

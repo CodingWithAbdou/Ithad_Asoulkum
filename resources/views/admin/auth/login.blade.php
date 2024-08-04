@@ -50,7 +50,7 @@
                         </div>
                         <div class="d-flex justify-content-between mb-10">
                             <a href="{{ route('password.request') }}"
-                                class="link-primary fs-6 fw-bolder">{{ __('Forgot Password?') }}</a>
+                                class="link-primary fs-6 fw-bolder">{{ __('dash.forgot') }}</a>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-lg btn-primary w-100 mb-5">
@@ -61,8 +61,8 @@
                         </div>
                     </form>
                     <div class="text-center mt-5">
-                        <p>{{ __('Don\'t have an account?') }} <a
-                                href="{{ route('dashboard.register') }}">{{ __('Create an account') }}</a></p>
+                        <p>{{ __('dash.have_account') }} <a
+                                href="{{ route('dashboard.register') }}">{{ __('dash.create_account') }}</a></p>
                     </div>
                 </div>
             </div>

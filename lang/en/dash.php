@@ -59,5 +59,8 @@ return [
     'answer' => 'Answer',
     'reorder_data' => 'Reorder Data',
     'faqs' => 'FAQs',
+    'forgot' => 'Forgot Password ?',
+    'create_account'=>'Create an account',
+    'have_account'=>'Don\'t have an account?'
 
 ];

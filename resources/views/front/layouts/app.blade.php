@@ -17,6 +17,7 @@
 
     <link rel="shortcut icon"
         href="{{ asset(\App\Models\Setting::where('setting_key', 'favicon')->first()->setting_value) }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
     {{-- fonts --}}
     {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,6 +74,9 @@
 <script src="{{ asset('assets/lib/aos.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script defer src="https://unpkg.com/alpinejs@3.2.3/dist/cdn.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 @vite('resources/js/app.js')
 @stack('script')
 

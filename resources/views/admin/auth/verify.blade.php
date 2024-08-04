@@ -7,8 +7,8 @@
             class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed">
             <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
                 <div class="w-lg-400px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
-                    <h1 class="text-center mb-5">Verify Your Email</h1>
-                    <p class="text-center mb-5">Enter the 6-digit code sent to your email</p>
+                    <h1 class="text-center mb-5">{{ __('auth.Verify_your_Email') }}</h1>
+                    <p class="text-center mb-5">{{ __('auth.verify_digit') }}</p>
                     <form method="POST" action="{{ route('dashboard.verify.submit') }}" class="w-100">
 
                         @csrf
@@ -21,7 +21,8 @@
                                     style="width: 40px; color: #000; background-color: #fff; border: 1px solid #ccc; padding: 0.5rem;">
                             @endfor
                         </div>
-                        <button type="submit" class="btn btn-primary w-100" id="verifyButton">Verify</button>
+                        <button type="submit" class="btn btn-primary w-100"
+                            id="verifyButton">{{ __('auth.check') }}</button>
                     </form>
                 </div>
             </div>

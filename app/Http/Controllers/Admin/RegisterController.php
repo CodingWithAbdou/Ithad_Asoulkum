@@ -51,25 +51,25 @@ class RegisterController extends Controller
             'code' => 'required|array|size:6',
             'code.*' => 'required|numeric|digits:1',
         ]);
-
+    
         $code = implode('', $request->code);
-
+    
         $user = User::where('code', $code)
                     ->where('expire', '>', now())
                     ->first();
-
+    
         if (!$user) {
-            return back()->withErrors(['code' => 'Invalid or expired code.']);
+            return response()->json(['success' => false, 'message' => 'Invalid or expired code.']);
         }
-
+    
         $user->email_verified_at = now();
         $user->code = null;
         $user->expire = null;
         $user->save();
-
+    
         session(['email' => $user->email]);
-
-        return redirect()->route('dashboard.profile.complete.show');
+    
+        return response()->json(['success' => true, 'redirect' => route('dashboard.profile.complete.show')]);
     }
 
     public function showCompleteProfileForm(Request $request)
