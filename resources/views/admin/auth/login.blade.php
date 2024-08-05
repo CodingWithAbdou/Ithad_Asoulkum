@@ -1,3 +1,5 @@
+<!--login.blade.php-->
+
 @extends('admin.layouts.auth')
 
 @section('content')
@@ -6,7 +8,7 @@
             class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed">
             <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
                 <img alt="Logo"
-                    src="{{ asset(asset(\App\Models\Setting::where('setting_key', 'logo')->first()->setting_value)) }}"
+                    src="{{ asset(\App\Models\Setting::where('setting_key', 'logo')->first()->setting_value) }}"
                     class="h-40px mb-10" />
                 <div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
                     <form class="form w-100" method="POST" action="{{ route('dashboard.login.form') }}">
@@ -46,6 +48,10 @@
                             <input class="form-control form-control-lg form-control-solid" type="password" name="password"
                                 autocomplete="off" />
                         </div>
+                        <div class="d-flex justify-content-between mb-10">
+                            <a href="{{ route('password.request') }}"
+                                class="link-primary fs-6 fw-bolder">{{ __('dash.forgot') }}</a>
+                        </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-lg btn-primary w-100 mb-5">
                                 <span class="text">{{ __('dash.login') }}</span>
@@ -55,8 +61,8 @@
                         </div>
                     </form>
                     <div class="text-center mt-5">
-                        <p>{{ __('Don\'t have an account?') }} <a
-                                href="{{ route('dashboard.register') }}">{{ __('Create an account') }}</a></p>
+                        <p>{{ __('dash.have_account') }} <a
+                                href="{{ route('dashboard.register') }}">{{ __('dash.create_account') }}</a></p>
                     </div>
                 </div>
             </div>

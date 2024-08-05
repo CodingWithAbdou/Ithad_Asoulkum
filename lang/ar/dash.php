@@ -58,8 +58,14 @@ return [
     'delete' => 'حذف',
     'question' => 'السؤال ',
     'answer' => 'الجواب ',
+    'forgot' => 'نسيت كلمة السر ؟',
+    'create_account'=>'أنشئ حساب',
+    'create_account1'=>'قم بتسجيل الدخول',
+    'have_account'=>'ليس لديك حساب  ؟',
+    'have_account1'=>'لديك حساب بالفعل ؟',
+'Create_an_Account'=>'أنشئ حساب',
     'reorder_data' => 'ترتيب البيانات',
     'faqs' => 'سؤال شائعة',
-    '' => '',
-    '' => '',
+    // 'title' => 'عنوان',
+  
 ];

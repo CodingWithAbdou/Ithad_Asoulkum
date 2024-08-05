@@ -1,4 +1,3 @@
-
 @extends('admin.layouts.auth')
 
 @section('content')
@@ -13,7 +12,7 @@
                     <form class="form w-100" method="POST" action="{{ route('dashboard.register.submit') }}">
                         @csrf
                         <div class="mb-10 text-center">
-                            <h1 class="text-dark mb-3">{{ __('Create an Account') }}</h1>
+                            <h1 class="text-dark mb-3">{{ __('dash.Create_an_Account') }}</h1>
                         </div>
                         @if ($errors->any())
                             <div class="alert alert-dismissible bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10">
@@ -39,13 +38,13 @@
                             </div>
                         @endif
                         <div class="fv-row mb-10">
-                            <label class="form-label fs-6 fw-bolder text-dark">{{ __('Email') }}</label>
+                            <label class="form-label fs-6 fw-bolder text-dark">{{ __('dash.email') }}</label>
                             <input class="form-control form-control-lg form-control-solid" type="email" name="email"
                                 required />
                         </div>
                         <div class="mb-10 fv-row" data-kt-password-meter="true">
                             <div class="mb-1">
-                                <label class="form-label fw-bolder text-dark fs-6">{{ __('Password') }}</label>
+                                <label class="form-label fw-bolder text-dark fs-6">{{ __('dash.password') }}</label>
                                 <div class="position-relative mb-3">
                                     <input class="form-control form-control-lg form-control-solid" type="password"
                                         name="password" required />
@@ -53,21 +52,22 @@
                             </div>
                         </div>
                         <div class="fv-row mb-10">
-                            <label class="form-label fw-bolder text-dark fs-6">{{ __('Confirm Password') }}</label>
+                            <label
+                                class="form-label fw-bolder text-dark fs-6">{{ __('dash.password_confirmation') }}</label>
                             <input class="form-control form-control-lg form-control-solid" type="password"
                                 name="password_confirmation" required />
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-lg btn-primary w-100 mb-5">
-                                <span class="indicator-label">{{ __('Submit') }}</span>
+                                <span class="indicator-label">{{ __('front.submit') }}</span>
                                 <span class="indicator-progress">{{ __('Please wait...') }}
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                             </button>
                         </div>
                     </form>
                     <div class="text-center mt-5">
-                        <p>{{ __('Already have an account?') }} <a
-                                href="{{ route('dashboard.login.index') }}">{{ __('Sign In') }}</a></p>
+                        <p>{{ __('dash.have_account1') }} <a
+                                href="{{ route('dashboard.login.index') }}">{{ __('dash.create_account1') }}</a></p>
                     </div>
                 </div>
             </div>

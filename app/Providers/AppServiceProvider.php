@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Blade::if('admin', function () {
+            return auth()->check() && auth()->user()->hasRole('Admin');
+        });
+        \Blade::if('agent', function () {
+            return auth()->check() && auth()->user()->hasRole('Agent');
+        });
     }
 }
