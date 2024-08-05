@@ -31,6 +31,22 @@
             </a>
         </li>
 
+
+
+
+
+        <li>
+            <a href="{{ route('dashboard.login.index') }}" class="link">
+                <span>{{ __('front.login') }}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('dashboard.register') }}" class="link">
+                <span>{{ __('front.register') }}</span>
+            </a>
+        </li>
+
+
         @if (getLocale() == 'en')
             <li>
                 <a href="{{ route('lang.switchLang', 'ar') }}"
