@@ -58,7 +58,8 @@ class AgentController extends Controller
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
         $data = User::create($input);
-
+        $data->email_verified_at = now();
+        $data->save();
         $status = true;
         $msg = __('dash.created successfully');
         $url = route('dashboard.' . $this->model->route_key . '.index');

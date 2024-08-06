@@ -159,7 +159,7 @@
 
                                                             <img height="auto"
                                                                 src="{{ asset(\App\Models\Setting::where('setting_key', 'logo')->first()->setting_value) }}"
-                                                                style="border:0;display:block;outline:none;text-decoration:none;width:100%;"
+                                                                style="border:0;display:block;outline:none;text-decoration:none;width:100%;width:200px;margin-block-end: 2rem"
                                                                 width="64" />
                                                         </td>
                                                     </tr>

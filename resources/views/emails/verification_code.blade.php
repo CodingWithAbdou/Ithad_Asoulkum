@@ -116,20 +116,6 @@
 
         </div>
 
-
-        <!--[if mso | IE]>
-          </td>
-        </tr>
-      </table>
-
-      <table
-         align="center" border="0" cellpadding="0" cellspacing="0" style="width:600px;" width="600"
-      >
-        <tr>
-          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
-      <![endif]-->
-
-
         <div style="background:#fff;background-color:#fff;Margin:0px auto;max-width:600px;">
 
             <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
@@ -159,7 +145,7 @@
 
                                                             <img height="auto"
                                                                 src="{{ asset(\App\Models\Setting::where('setting_key', 'logo')->first()->setting_value) }}"
-                                                                style="border:0;display:block;outline:none;text-decoration:none;width:100%;"
+                                                                style="border:0;display:block;outline:none;text-decoration:none;width:100%;width:200px;margin-block-end: 2rem"
                                                                 width="64" />
 
                                                         </td>

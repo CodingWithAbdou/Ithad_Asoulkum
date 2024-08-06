@@ -88,7 +88,7 @@
                         </div>
                     @endforeach
                 </div>
-                @if ($data->count() > 12)
+                @if ($data->count() == 12)
                     <div class="d-flex align-items-center justify-content-end mt-16  mb-12">
                         <div class="d-flex align-items-center justify-content-center gap-6">
                             <span>{{ __('dash.pages') }}</span>
