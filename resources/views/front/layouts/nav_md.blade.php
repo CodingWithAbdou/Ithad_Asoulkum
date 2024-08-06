@@ -10,11 +10,6 @@
 
         <li>
             <a href="{{ route('join_us.show') }}" class="link">
-                <span>{{ __('front.home') }}</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('join_us.show') }}" class="link">
                 <span>{{ __('front.join-us') }}</span>
             </a>
         </li>
@@ -30,21 +25,19 @@
                 <span>{{ __('front.contact-us') }}</span>
             </a>
         </li>
+        @guest
 
-
-
-
-
-        <li>
-            <a href="{{ route('dashboard.login.index') }}" class="link">
-                <span>{{ __('front.login') }}</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('dashboard.register') }}" class="link">
-                <span>{{ __('front.register') }}</span>
-            </a>
-        </li>
+            <li>
+                <a href="{{ route('dashboard.register') }}" class="link">
+                    <span>{{ __('front.register') }}</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('dashboard.login.index') }}" class="link">
+                    <span>{{ __('front.login') }}</span>
+                </a>
+            </li>
+        @endguest
 
 
         @if (getLocale() == 'en')
@@ -62,5 +55,13 @@
                 </a>
             </li>
         @endif
+        @auth
+            <li>
+                <a href="{{ route('dashboard.home') }}"
+                    class="text-sm  w-20 h-8 test md:text-base md:w-28 md:h-12 flex items-center justify-center rounded-xl font-normal transition duration-300 border text-white bg-gray-800">
+                    {{ __('front.dashboard') }}
+                </a>
+            </li>
+        @endauth
     </ul>
 </div>

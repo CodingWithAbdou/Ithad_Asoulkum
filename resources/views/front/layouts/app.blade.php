@@ -19,11 +19,6 @@
         href="{{ asset(\App\Models\Setting::where('setting_key', 'favicon')->first()->setting_value) }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
-    {{-- fonts --}}
-    {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet"> --}}
-
     <link href="{{ asset('assets/lib/aos.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/lib/nice-select.css') }}" />
     @vite('resources/css/app.css')

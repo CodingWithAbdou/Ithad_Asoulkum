@@ -8,13 +8,9 @@
                         alt="logo" class=" w-36" />
                 </a>
 
-                <a href="{{ route('home') }}" class="hidden xl:block link">
-                    {{ __('front.home') }}
-                </a>
 
             </div>
-            <div class="hidden xl:block"
-                {{ app()->getLocale() == 'ar' ? 'data-aos=fade-right' : 'data-aos=fade-left' }}>
+            <div class="hidden xl:block" {{ app()->getLocale() == 'ar' ? 'data-aos=fade-right' : 'data-aos=fade-left' }}>
                 <ul class="flex flex-wrap   items-center justify-center gap-4  ">
                     <li>
                         <a href="{{ route('about.index') }}" class="link">
@@ -39,22 +35,24 @@
                             <span>{{ __('front.contact-us') }}</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('dashboard.login.index') }}" class="link">
-                            <span>{{ __('front.login') }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard.register') }}" class="link">
-                            <span>{{ __('front.register') }}</span>
-                        </a>
-                    </li>
 
+                    @guest
 
+                        <li>
+                            <a href="{{ route('dashboard.register') }}" class="link">
+                                <span>{{ __('front.register') }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('dashboard.login.index') }}" class="link">
+                                <span>{{ __('front.login') }}</span>
+                            </a>
+                        </li>
+                    @endguest
                     @if (getLocale() == 'en')
                         <li>
                             <a href="{{ route('lang.switchLang', 'ar') }}" style="font-family: Dinar, sans-serif"
-                                class=" text-sm  w-20 h-8 md:text-base md:w-28 md:h-12 flex items-center justify-center rounded-xl font-normal transition duration-300 border border-primary text-secondary hover:bg-primary hover:text-white">
+                                class=" text-sm  w-20 h-8 text-neutral-700 md:text-base md:w-28 md:h-12 flex items-center justify-center rounded-xl font-normal transition duration-300 border border-primary  hover:bg-primary hover:text-white">
                                 العربية
                             </a>
                         </li>
@@ -66,6 +64,14 @@
                             </a>
                         </li>
                     @endif
+                    @auth
+                        <li>
+                            <a href="{{ route('dashboard.home') }}"
+                                class="text-sm  w-20 h-8 test md:text-base md:w-28 md:h-12 flex items-center justify-center rounded-xl font-normal transition duration-300 border text-white bg-gray-800">
+                                {{ __('front.dashboard') }}
+                            </a>
+                        </li>
+                    @endauth
                 </ul>
             </div>
             <button class="xl:hidden" id="menu_btn">

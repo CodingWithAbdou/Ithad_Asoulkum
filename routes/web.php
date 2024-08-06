@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AboutController as AdminAboutController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AgentController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\FaqPageController;
 use App\Http\Controllers\Admin\HomeDashController;
@@ -32,7 +34,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
 // home page
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/store', [HomeController::class, 'store'])->name('form.store');
@@ -49,33 +50,31 @@ Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
 Route::get('about', [AboutController::class, 'index'])->name('about.index');
 
 
-
-
-
-
-
 Route::group(['middleware' => 'guest'], function () {
     // auth
-    Route::get('login', [LoginController::class, 'index'])->name('dashboard.login.index');
-    Route::post('login/submit', [LoginController::class, 'login'])->name('dashboard.login.form');
-    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('dashboard.register');
+    Route::get('register', [RegisterController::class, 'index'])->name('dashboard.register');
     Route::post('register', [RegisterController::class, 'register'])->name('dashboard.register.submit');
+
     Route::get('verify-email', [RegisterController::class, 'showVerificationForm'])->name('dashboard.verify.register');
-    Route::post('verify-email', [RegisterController::class, 'verifyEmail'])->name('dashboard.verify.submit.otp');
+    Route::post('verify-emaill', [RegisterController::class, 'verifyEmail'])->name('dashboard.verify.submit.otp');
+    Route::get('fresh-code-email', [RegisterController::class, 'freshCodeEmail'])->name('dashboard.fresh.code.email');
+
     Route::get('complete-profile', [RegisterController::class, 'showCompleteProfileForm'])->name('dashboard.profile.complete.show');
     Route::post('complete-profile', [RegisterController::class, 'completeProfile'])->name('dashboard.profile.complete.submit');
+
+    Route::get('login', [LoginController::class, 'index'])->name('dashboard.login.index');
+    Route::post('login/submit', [LoginController::class, 'login'])->name('dashboard.login.form');
     Route::get('forgot-password', [LoginController::class, 'showForgotPasswordForm'])->name('password.request');
     Route::post('forgot-password', [LoginController::class, 'sendResetOTP'])->name('password.email');
-    //Route::get('verify-code', [LoginController::class, 'showVerifyCodeForm'])->name('password.verify');
-    //Route::post('verify-code', [LoginController::class, 'verifyCode'])->name('password.verify.submit');
-    Route::get('reset-password', [LoginController::class, 'showResetPasswordForm'])->name('password.reset');
-    Route::post('reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
     Route::get('verify-code', [LoginController::class, 'showVerifyCodeForm'])->name('dashboard.verify.show');
     Route::post('verify-code', [LoginController::class, 'verifyCode'])->name('dashboard.verify.submit');
+
+    Route::get('reset-password', [LoginController::class, 'showResetPasswordForm'])->name('password.reset');
+    Route::post('reset-password', [LoginController::class, 'resetPassword'])->name('password.update');
 });
 
 // pages show just to admin role and with two factor auth
-Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
 
     // item order
     Route::get('/{segment}/re-order/{id?}', [ReorderController::class, 'index'])->name('dashboard.reorder.index');
@@ -91,14 +90,21 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('password', [ProfileController::class, 'password'])->name('dashboard.password.index');
     Route::post('password/change', [ProfileController::class, 'update_password'])->name('dashboard.password.update');
 
-    //admins + agents
-    Route::get('agents', [UserController::class, 'agent'])->name('dashboard.agents.index');
-    Route::get('admins', [UserController::class, 'admin'])->name('dashboard.admins.index');
-    Route::get('admins/create', [UserController::class, 'create'])->name('dashboard.users.create');
-    Route::post('users/store', [UserController::class, 'store'])->name('dashboard.users.store');
-    Route::get('users/{obj}/edit', [UserController::class, 'edit'])->name('dashboard.users.edit');
-    Route::post('users/{obj}/update', [UserController::class, 'update'])->name('dashboard.users.update');
-    Route::delete('users/{obj}/delete', [UserController::class, 'destroy'])->name('dashboard.users.destroy');
+    //agents
+    Route::get('agents', [AgentController::class, 'index'])->name('dashboard.agents.index');
+    Route::get('agents/create', [AgentController::class, 'create'])->name('dashboard.agents.create');
+    Route::post('agents/store', [AgentController::class, 'store'])->name('dashboard.agents.store');
+    Route::get('agents/{obj}/edit', [AgentController::class, 'edit'])->name('dashboard.agents.edit');
+    Route::post('agents/{obj}/update', [AgentController::class, 'update'])->name('dashboard.agents.update');
+    Route::delete('agents/{obj}/delete', [AgentController::class, 'destroy'])->name('dashboard.agents.destroy');
+
+    //admins
+    Route::get('admins', [AdminController::class, 'index'])->name('dashboard.admins.index');
+    Route::get('admins/create', [AdminController::class, 'create'])->name('dashboard.admins.create');
+    Route::post('admins/store', [AdminController::class, 'store'])->name('dashboard.admins.store');
+    Route::get('admins/{obj}/edit', [AdminController::class, 'edit'])->name('dashboard.admins.edit');
+    Route::post('admins/{obj}/update', [AdminController::class, 'update'])->name('dashboard.admins.update');
+    Route::delete('admins/{obj}/delete', [AdminController::class, 'destroy'])->name('dashboard.admins.destroy');
 
     //settings
     Route::get('/settings', [SettingController::class, 'index'])->name('dashboard.settings.index');
@@ -131,12 +137,19 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('offers', [OfferController::class, 'index'])->name('dashboard.offers.index');
     Route::get('offers/{obj}/edit', [OfferController::class, 'edit'])->name('dashboard.offers.edit');
     Route::post('offers/{obj}/update', [OfferController::class, 'update'])->name('dashboard.offers.update');
+
+    //Events
+    Route::get('events/create', [EventController::class, 'create'])->name('dashboard.events.create');
+    Route::post('events/store', [EventController::class, 'store'])->name('dashboard.events.store');
+    Route::get('events/{obj}/edit', [EventController::class, 'edit'])->name('dashboard.events.edit');
+    Route::post('events/{obj}/update', [EventController::class, 'update'])->name('dashboard.events.update');
+    Route::delete('events/{obj}/delete', [EventController::class, 'destroy'])->name('dashboard.events.destroy');
 });
 
 // both admin and agent can show this pages
-Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     //home page
-    Route::get('dashboard', [HomeDashController::class, 'index'])->name('dashboard.home');
+    Route::get('/', [HomeDashController::class, 'index'])->name('dashboard.home');
 
     //logout
     Route::get('logout', [LoginController::class, 'logout'])->name('dashboard.logout');
@@ -148,16 +161,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::post('password/change', [ProfileController::class, 'update_password'])->name('dashboard.password.update');
 
     // offer for all auth
-    Route::get('offers/show', [OfferController::class, 'show'])->name('dashboard.my_offers.index');
+    Route::get('offers/my_offers', [OfferController::class, 'myOffers'])->name('dashboard.my_offers.index');
+    Route::get('offers/{obj}/show', [OfferController::class, 'show'])->name('dashboard.offers.show');
     Route::get('offers/create', [OfferController::class, 'create'])->name('dashboard.offers.create');
     Route::post('offers/store', [OfferController::class, 'store'])->name('dashboard.offers.store');
     Route::delete('offers/{obj}/delete', [OfferController::class, 'destroy'])->name('dashboard.offers.destroy');
 
-    //Events
+    // show just events
     Route::get('events', [EventController::class, 'index'])->name('dashboard.events.index');
-    Route::get('events/create', [EventController::class, 'create'])->name('dashboard.events.create');
-    Route::post('events/store', [EventController::class, 'store'])->name('dashboard.events.store');
-    Route::get('events/{obj}/edit', [EventController::class, 'edit'])->name('dashboard.events.edit');
-    Route::post('events/{obj}/update', [EventController::class, 'update'])->name('dashboard.events.update');
-    Route::delete('events/{obj}/delete', [EventController::class, 'destroy'])->name('dashboard.events.destroy');
+    Route::get('events/{obj}/show', [EventController::class, 'show'])->name('dashboard.events.show');
 });

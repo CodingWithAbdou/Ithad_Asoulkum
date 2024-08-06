@@ -22,15 +22,15 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
-    'email',
-    'password',
-    'image',
-    'code',
-    'expire',
-    'phone_number',
-    'job_title',
-    'company',
-    'id_number'
+        'email',
+        'password',
+        'image',
+        'code',
+        'expire',
+        'phone_number',
+        'job_title',
+        'company',
+        'id_number'
     ];
 
     /**
@@ -64,7 +64,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Offer::class);
     }
- public function Role()
+    public function Role()
     {
         return $this->belongsTo(Role::class);
     }
@@ -73,5 +73,23 @@ class User extends Authenticatable implements MustVerifyEmail
         return  $this->Role()->whereName($roleName)->first() ? true : false;
     }
 
-   
+    public function block(User $user)
+    {
+        $this->blocks()->attach($user->id);
+    }
+
+    public function unblock(User $user)
+    {
+        $this->blocks()->detach($user->id);
+    }
+
+    public function blocks()
+    {
+        return $this->belongsToMany(User::class, 'user_blocks', 'user_id', 'blocked_user_id');
+    }
+
+    public function isBlockedBy(User $user)
+    {
+        return $this->blocks()->where('blocked_user_id', $user->id)->exists();
+    }
 }

@@ -18,6 +18,6 @@ class AdminMiddelleware
         if (\Auth::user() && $request->user()->hasRole('Admin')) {
             return $next($request);
         }
-        abort(404);
+        abort(403);
     }
 }

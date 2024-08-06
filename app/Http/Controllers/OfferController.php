@@ -26,6 +26,16 @@ class OfferController extends Controller
         return view('admin.offers.index', compact('data'));
     }
 
+    public function show(Offer $obj)
+    {
+        if (auth()->user()->role_id == 2) {
+            if ($obj->user_id != auth()->id()) {
+                return redirect()->back();
+            }
+        }
+        return view('admin.offers.show', compact('obj'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -36,11 +46,13 @@ class OfferController extends Controller
     }
 
 
-    public function show()
+    public function myOffers()
     {
         $obj = auth()->user()->offers->all();
         return view('admin.offers.index', ['data' => $obj]);
     }
+
+
 
 
     // /**
@@ -79,8 +91,11 @@ class OfferController extends Controller
         }
         $status = true;
         $msg = __('dash.created successfully');
-        $url = route('dashboard.' . $this->model->route_key . '.index');
-
+        if (auth()->user()->role_id == 2) {
+            $url = route('dashboard.my_offers.index');
+        } else {
+            $url = route('dashboard.' . $this->model->route_key . '.index');
+        }
         return response()->json(compact('status', 'msg', 'url'));
     }
 
@@ -122,6 +137,11 @@ class OfferController extends Controller
     public function destroy(Request $request, Offer $obj)
     {
         try {
+            if (auth()->user()->role_id == 2) {
+                if ($obj->user_id != auth()->id()) {
+                    return response()->json(['status' => false, 'msg' => __('dash.not_allowed')]);
+                }
+            }
             $obj->delete();
             $status = true;
             $msg = __('dash.deleted_successfully');

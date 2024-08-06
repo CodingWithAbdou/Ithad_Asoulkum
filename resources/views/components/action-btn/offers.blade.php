@@ -1,5 +1,5 @@
 <td>
-    <button data-bs-toggle="modal" data-bs-target="#message-modal-{{ $record->id }}"
+    <a href="{{ route('dashboard.offers.show', $record) }}"
         class="btn btn-icon btn-bg-light btn-active-color-info btn-sm me-1 my-1">
         <div class="w-100 h-100 d-flex justify-content-center align-items-center" data-bs-toggle="tooltip"
             data-bs-placement="bottom" title="{{ __('dash.message') }}">
@@ -7,7 +7,7 @@
                 <i class="fas fa-eye"></i>
             </span>
         </div>
-    </button>
+    </a>
     <div class="modal fade" tabindex="-1" id="message-modal-{{ $record->id }}">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -68,18 +68,17 @@
                                 <td>{{ $record->{'city_' . getLocale()} }}</td>
                             </tr>
                             <tr class="p-4">
-                                <td class="ps-3">{{ __('dash.neighborhood ') }}</td>
+                                <td class="ps-3">{{ __('dash.neighborhood') }}</td>
                                 <td>{{ $record->{'neighborhood_' . getLocale()} }}</td>
                             </tr>
                             <tr class="p-4">
-                                <td class="ps-3">{{ __('dash.place ') }}</td>
+                                <td class="ps-3">{{ __('dash.place') }}</td>
                                 <td>{{ $record->{'place_' . getLocale()} }}</td>
                             </tr>
                             <tr class="p-4">
                                 <td class="ps-3">{{ __('dash.description') }}</td>
                                 <td>{{ $record->{'description_' . getLocale()} }}</td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>

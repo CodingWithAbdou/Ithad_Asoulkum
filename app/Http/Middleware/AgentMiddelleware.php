@@ -18,6 +18,6 @@ class AgentMiddelleware
         if (\Auth::user() && $request->user()->hasRole('Agent')) {
             return $next($request);
         }
-        abort(404);
+        abort(403);
     }
 }

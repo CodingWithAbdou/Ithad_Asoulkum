@@ -14,29 +14,24 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         return view('admin.profile.index', compact('user'));
-
     }
 
     public function update(Request $request)
     {
         $user = auth()->user();
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email:rfc,dns|unique:users,email,'.$user->id,
-            'image' => 'nullable|mimes:'.acceptImageType(0).'|max:'.getMaxSize(),
+            'name' => 'required|string',
+            'phone_number' => 'nullable|string',
+            'job_title' => 'nullable|string',
+            'company' => 'nullable|string',
+            'id_number' => 'nullable|string',
         ]);
-
+        unset($request['email']);
         $input = $request->all();
 
         try {
-            if(isset($input['image'])){
-                $input['image'] = generalUpload($this->model_name, $input['image']);
-            }else{
-                $input['image'] = $user->image;
-            }
             $user->update($input);
-            // $user->assignRole('admin');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $status = false;
             $msg = $e->getMessage();
             return response()->json(compact('status', 'msg'));
@@ -59,15 +54,15 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $this->validate($request, [
-            'current_password' => 'required|current_password',
-            'password' => 'required|string|confirmed',
+            'current_password' => 'required|current_password|min:8',
+            'password' => 'required|string|confirmed|min:8',
         ]);
 
         try {
             $user->update([
                 'password' => Hash::make($request->password),
             ]);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $status = false;
             $msg = $e->getMessage();
             return response()->json(compact('status', 'msg'));

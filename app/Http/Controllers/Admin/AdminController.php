@@ -8,36 +8,26 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Route;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
     public $model;
-    public $route_key;
 
     public function __construct()
     {
-        $currentRouteName = Route::currentRouteName();
-        if ($currentRouteName[1] == 'admins') {
-            $this->route_key = 'admins';
-        } else {
-            $this->route_key = 'agents';
-        }
-        $this->model = ProjectModel::where('route_key', $this->route_key)->first();
+
+        $this->model = ProjectModel::where('route_key', 'admins')->first();
         view()->share('model', $this->model);
     }
 
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        if ($this->route_key == 'admins') {
-            $data = User::where('role_id', '1')->orderBy('created_at', 'desc')->get();
-        } else {
-            $data = User::where('role_id', '2')->orderBy('created_at', 'desc')->get();
-        }
-        return view('admin.users.index', compact('data'));
+        $data = User::where('role_id', '1')->orderBy('created_at', 'desc')->get();
+        return view('admin.admins.index', compact('data'));
     }
 
     /**
@@ -45,7 +35,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.form');
+        return view('admin.admins.form');
     }
 
     /**
@@ -56,18 +46,17 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:users,email',
-            'password' => 'required|confirmed',
-            'password_confirmation' => 'required',
-            'image' => 'nullable|max:' . getMaxSize() . '|mimes:' . acceptImageType(0),
+            'password' => 'required|confirmed|min:8',
+            'password_confirmation' => 'required|min:8',
         ]);
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-        if ($request->image) {
-            $input['image'] = generalUpload('User', $request->image);
-        }
+        // $input['role_id'] = 1;
+        $input['email_verified_at'] = now();
         $data = User::create($input);
-
+        $data->role_id = 1;
+        $data->save();
         $status = true;
         $msg = __('dash.created successfully');
         $url = route('dashboard.' . $this->model->route_key . '.index');
@@ -88,7 +77,7 @@ class UserController extends Controller
      */
     public function edit(Request $request, User $obj)
     {
-        return view('admin.users.form', ['data' => $obj]);
+        return view('admin.admins.form', ['data' => $obj]);
     }
 
     /**
@@ -100,7 +89,8 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:users,email,' . $obj->id,
             'phone' => 'nullable|size:17|unique:users,phone,' . $obj->id,
-            'image' => 'nullable|max:' . getMaxSize() . '|mimes:' . acceptImageType(0),
+            'password' => 'required|confirmed|min:8',
+            'password_confirmation' => 'required|min:8',
         ]);
 
         $input = $request->all();
@@ -111,11 +101,6 @@ class UserController extends Controller
             $input['password'] = Hash::make($input['password']);
         }
 
-        if ($request->image) {
-            $input['image'] = generalUpload($this->model->model, $request->image);
-        } else {
-            $input['image'] = $obj->image;
-        }
 
         $obj->update($input);
 

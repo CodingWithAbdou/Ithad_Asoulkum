@@ -7,6 +7,7 @@ return [
     'Type of service' => 'Type of service',
     'Choose services' => 'Choose service',
     'info' => 'Type can be determined after testing the service',
+    'dashboard' => 'Dashboard ',
 
     'city' => 'city',
     'price' => 'price',
@@ -70,7 +71,7 @@ return [
     'dev' => 'Abdou ',
 
 
- 
+
     'home' => 'Home',
     'faq' => 'FAQ',
     'join-us' => 'Join Us',

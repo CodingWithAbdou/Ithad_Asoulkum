@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-@if(app()->getLocale() == 'ar')
+@if (app()->getLocale() == 'ar')
     <html lang="en" dir="rtl" direction="rtl">
 @else
     <html lang="ar">
@@ -9,14 +9,11 @@
 
 <body id="kt_body" class="bg-body">
 
-@yield('content')
+    @yield('content')
 
-<!--begin::Global Javascript Bundle(used by all pages)-->
-<script src="{{asset('dashboard_assets/plugins/global/plugins.bundle.js')}}"></script>
-<script src="{{asset('dashboard_assets/js/scripts.bundle.js')}}"></script>
-<!--end::Global Javascript Bundle-->
+    <script src="{{ asset('dashboard_assets/plugins/global/plugins.bundle.js') }}"></script>
 
-@stack('script')
-
+    @stack('script')
 </body>
+
 </html>

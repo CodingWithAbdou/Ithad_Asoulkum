@@ -1,15 +1,6 @@
 <td>
-
-    <a href="{{ route('dashboard.events.show', $record) }}"
-        class="btn btn-icon btn-bg-light btn-active-color-info btn-sm me-1 my-1">
-        <div class="w-100 h-100 d-flex justify-content-center align-items-center" data-bs-toggle="tooltip"
-            data-bs-placement="bottom" title="{{ __('dash.message') }}">
-            <span class="svg-icon svg-icon-3">
-                <i class="fas fa-eye"></i>
-            </span>
-        </div>
-    </a>
-    <a href="{{ route('dashboard.events.edit', $record) }}"
+    {{-- @can('admin.admins.edit') --}}
+    <a href="{{ route('dashboard.admins.edit', $record) }}"
         class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" data-bs-toggle="tooltip"
         data-bs-placement="bottom" title="{{ __('dash.edit') }}">
         <span class="svg-icon svg-icon-3">
@@ -23,8 +14,10 @@
             </svg>
         </span>
     </a>
+    {{-- @endcan --}}
+    {{-- @can('admin.admins.delete') --}}
     <a class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm delete-btn"
-        data-url="{{ route('dashboard.events.destroy', $record) }}" data-bs-toggle="tooltip" data-bs-placement="bottom"
+        data-url="{{ route('dashboard.admins.destroy', $record) }}" data-bs-toggle="tooltip" data-bs-placement="bottom"
         title="{{ __('dash.delete') }}">
         <span class="text">
             <span class="svg-icon svg-icon-3">
@@ -43,4 +36,5 @@
         </span>
         <span class="btn-loader d-none"><i class="fas fa-circle-notch fa-spin p-0"></i></span>
     </a>
+    {{-- @endcan --}}
 </td>

@@ -46,7 +46,7 @@
                                 optionName="name" />
                         @else
                             <div class="col-md-6 mb-10">
-                                <label class="form-label" class="form-label" for="">صور العرض</label>
+                                <label class="form-label" class="form-label" for="">{{ __('dash.images') }}</label>
                                 <input class="form-select form-select-solid" class="custom-file-input"
                                     accept=".png, .svg, .jpg, .jpeg, .webp" type="file" name="images[]" multiple>
                             </div>
@@ -85,9 +85,9 @@
                                 data="{{ isset($data) ? $data->place_en : '' }}" />
 
                             <x-inputs.textarea label="{{ __('dash.description') . ' Ar' }}" name="description_ar"
-                                required="" data="{{ isset($data) ? $data->description_ar : '' }}" />
+                                data="{{ isset($data) ? $data->description_ar : '' }}" />
                             <x-inputs.textarea label="{{ __('dash.description') . ' En' }}" name="description_en"
-                                required="" data="{{ isset($data) ? $data->description_en : '' }}" />
+                                data="{{ isset($data) ? $data->description_en : '' }}" />
                         @endif
                     </div>
                 </div>

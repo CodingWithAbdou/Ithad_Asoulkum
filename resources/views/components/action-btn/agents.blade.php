@@ -1,6 +1,6 @@
 <td>
-    {{-- @can('admin.users.edit') --}}
-    <a href="{{ route('dashboard.users.edit', $record) }}"
+    {{-- @can('admin.agents.edit') --}}
+    <a href="{{ route('dashboard.agents.edit', $record) }}"
         class="btn btn-icon btn-bg-light btn-active-color-success btn-sm me-1" data-bs-toggle="tooltip"
         data-bs-placement="bottom" title="{{ __('dash.edit') }}">
         <span class="svg-icon svg-icon-3">
@@ -15,9 +15,9 @@
         </span>
     </a>
     {{-- @endcan --}}
-    {{-- @can('admin.users.delete') --}}
+    {{-- @can('admin.agents.delete') --}}
     <a class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm delete-btn"
-        data-url="{{ route('dashboard.users.destroy', $record) }}" data-bs-toggle="tooltip" data-bs-placement="bottom"
+        data-url="{{ route('dashboard.agents.destroy', $record) }}" data-bs-toggle="tooltip" data-bs-placement="bottom"
         title="{{ __('dash.delete') }}">
         <span class="text">
             <span class="svg-icon svg-icon-3">

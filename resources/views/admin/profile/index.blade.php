@@ -27,13 +27,7 @@
     <div class="card mb-5 mb-xl-10">
         <div class="card-body pt-9 pb-0">
             <div class="d-flex align-items-center flex-wrap flex-sm-nowrap mb-3">
-                @if ($user->image)
-                    <div class="me-7 mb-4">
-                        <div class="symbol symbol-100px symbol-lg-100px symbol-fixed position-relative">
-                            <img src="{{ asset($user->image) }}" alt="image" class="object-cover" />
-                        </div>
-                    </div>
-                @endif
+
                 <div class="flex-grow-1">
                     <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
                         <div class="d-flex flex-column">
@@ -54,7 +48,7 @@
                                                 d="M12 22C14.6 22 17 21 18.7 19.4C17.9 16.9 15.2 15 12 15C8.8 15 6.09999 16.9 5.29999 19.4C6.99999 21 9.4 22 12 22Z"
                                                 fill="black" />
                                         </svg>
-                                    </span> admin
+                                    </span> {{ $user->role_id == 1 ? __('dash.admin') : __('dash.agent') }}
                                 </a>
                                 <a href="javascript:void(0)"
                                     class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
@@ -90,22 +84,6 @@
                 enctype="multipart/form-data">
                 <div class="card-body border-top p-9">
                     <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('dash.image') }}</label>
-                        <div class="col-lg-8">
-                            <div class="image-input image-input-outline error-here" data-kt-image-input="true"
-                                style="background-image: url({{ asset('dashboard_assets/media/no_image.jpg') }})">
-                                <div class="image-input-wrapper w-125px h-125px"
-                                    style="background-image: url({{ asset($user->image ? $user->image : asset('dashboard_assets/media/no_image.jpg')) }})">
-                                </div>
-                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                    data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
-                                    <i class="bi bi-pencil-fill fs-7"></i>
-                                    <input type="file" name="image" accept="{{ acceptImageType() }}" />
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-6">
                         <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ __('dash.name') }}</label>
                         <div class="col-lg-8 fv-row">
                             <input type="text" name="name" class="form-control form-control-lg form-control-solid"
@@ -116,15 +94,40 @@
                         <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ __('dash.email') }}</label>
                         <div class="col-lg-8 fv-row">
                             <input type="text" name="email" class="form-control form-control-lg form-control-solid"
-                                value="{{ $user->email }}" />
+                                value="{{ $user->email }}" disabled />
                         </div>
                     </div>
-                    <div class="row mb-6">
-                        {{-- <label class="col-lg-4 col-form-label required fw-bold fs-6">{{__('dash.role_id')}}</label> --}}
-                        <div class="col-lg-8 fv-row">
-                            {{-- <input type="text" name="role_id" class="form-control form-control-lg form-control-solid" disabled value="{{$user->Role->name}}" /> --}}
+                    @agent
+                        <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ __('dash.phone') }}</label>
+                            <div class="col-lg-8 fv-row">
+                                <input type="text" name="phone_number"
+                                    class="form-control form-control-lg form-control-solid"
+                                    value="{{ $user->phone_number }}" />
+                            </div>
                         </div>
-                    </div>
+                        <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ __('dash.job_title') }}</label>
+                            <div class="col-lg-8 fv-row">
+                                <input type="text" name="job_title" class="form-control form-control-lg form-control-solid"
+                                    value="{{ $user->job_title }}" />
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ __('dash.company') }}</label>
+                            <div class="col-lg-8 fv-row">
+                                <input type="text" name="company" class="form-control form-control-lg form-control-solid"
+                                    value="{{ $user->company }}" />
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ __('dash.id_number') }}</label>
+                            <div class="col-lg-8 fv-row">
+                                <input type="text" name="id_number" class="form-control form-control-lg form-control-solid"
+                                    value="{{ $user->id_number }}" />
+                            </div>
+                        </div>
+                    @endagent
                 </div>
                 <div class="card-footer d-flex justify-content-end py-6 px-9">
                     <a href="{{ route('dashboard.home') }}" type="reset"

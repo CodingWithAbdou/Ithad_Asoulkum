@@ -23,10 +23,20 @@ class EventController extends Controller
      */
     public function index()
     {
-        $data = Event::orderBy('order_by', 'desc')->get();
-        
-        return view('admin.events.index', compact('data'));
+        if (auth()->user()->role_id == 1) {
+            $data = Event::orderBy('order_by', 'desc')->get();
+            return view('admin.events.index', compact('data'));
+        } else {
+            $data = Event::orderBy('order_by', 'desc')->paginate(12);
+            return view('admin.events.agent_index', compact('data'));
+        }
     }
+
+    public function show(Event $obj)
+    {
+        return view('admin.events.show', ['obj' => $obj]);
+    }
+
 
     /**
      * Show the form for creating a new resource.

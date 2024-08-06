@@ -120,7 +120,7 @@ class ProjectModelSeeder extends Seeder
         ProjectModel::create([
             'parent_id' => '0',
             'role_id' => '2',
-            'title_ar' => 'المفكرة العقارية',
+            'title_ar' => 'الأحداث العقارية',
             'route_key' => 'events',
             'title_en' => 'Real Estate Notebook',
             'model' => 'Event',

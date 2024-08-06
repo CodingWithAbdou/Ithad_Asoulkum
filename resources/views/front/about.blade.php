@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-start items-start ">
+        <div class="flex justify-start items-start " id="terms">
             <div data-aos="fade-down" class="my-6">
                 <h1
                     class="w-fit text-3xl md:text-4xl text-primary relative z-20 font-light mb-8 flex items-center justify-center gap-6">

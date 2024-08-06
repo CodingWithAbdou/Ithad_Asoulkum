@@ -4,7 +4,7 @@
 
 @layer base {
     .link {
-        @apply text-primary font-bold text-sm md:text-lg ms-6 relative  before:absolute before:bottom-[-2px] rtl:before:right-0  ltr:before:left-0  before:w-8 before:bg-primary before:h-[2px] before:rounded-lg before:transition before:duration-300  hover:before:w-full;
+        @apply text-neutral-700 font-bold text-lg md:text-lg ms-6 relative  before:absolute before:bottom-[-2px] rtl:before:right-0 hover:text-primary  ltr:before:left-0  before:w-0 before:bg-primary before:h-[2px] before:rounded-lg before:transition before:duration-300  hover:before:w-full;
     }
     .input_join {
         @apply placeholder:font-bold border border-neutral-300 focus:outline-none  placeholder:text-neutral-700 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5;
