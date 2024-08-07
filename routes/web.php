@@ -76,7 +76,6 @@ Route::group(['middleware' => 'guest'], function () {
 
 // pages show just to admin role and with two factor auth
 Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
-    Route::get('notifications', [NotificationController::class, 'notifications'])->name('dashboard.notifications.read');
 
     // item order
     Route::get('/{segment}/re-order/{id?}', [ReorderController::class, 'index'])->name('dashboard.reorder.index');
@@ -150,6 +149,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
 
 // both admin and agent can show this pages
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
+    Route::post('notifications', [NotificationController::class, 'notifications'])->name('dashboard.notifications.read');
+
     //home page
     Route::get('/', [HomeDashController::class, 'index'])->name('dashboard.home');
 

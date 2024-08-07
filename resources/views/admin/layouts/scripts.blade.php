@@ -29,10 +29,14 @@
             notificationsCountElem.text(0);
             $.ajax({
                 url: "{{ route('dashboard.notifications.read') }}",
-                type: 'GET',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 data: {
                     'number_user': userId,
                 },
+
             });
         }
     });

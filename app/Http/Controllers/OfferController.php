@@ -47,15 +47,11 @@ class OfferController extends Controller
         return view('admin.offers.form', compact('currency'));
     }
 
-
     public function myOffers()
     {
         $obj = auth()->user()->offers->all();
         return view('admin.offers.index', ['data' => $obj]);
     }
-
-
-
 
     // /**
     //  * Store a newly created resource in storage.
