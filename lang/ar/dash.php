@@ -125,5 +125,10 @@ return [
     "number_events" => 'عدد الاحداث العقارية',
     "number_agents" => 'عدد الوسطاء',
     "place" => 'المكان',
+    "number" => 'رقم',
+    "unique_code" => 'رقم مميز',
     "number_my_offers" => 'عدد عروضي العقارية',
+    "offer_status_changed_to_inactive" => 'تم تغيير حالة العرض العقاري إلى غير نشط',
+    "offer_status_changed_to_active" => 'تم تغيير حالة العرض العقاري إلى نشط',
+    "there_no_notification_for_show" => 'لا يوجد إشعارات لعرضها',
 ];

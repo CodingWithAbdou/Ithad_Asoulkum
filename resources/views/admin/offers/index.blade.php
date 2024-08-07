@@ -30,6 +30,7 @@
             <table class="table align-middle table-row-dashed fs-6 gy-5" id="datatable">
                 <thead>
                     <tr class="text-start text-dark fw-bolder fs-7 text-uppercase gs-0">
+                        <th class="min-w-250px">{{ __('dash.unique_code') }}</th>
                         <th class="min-w-250px">{{ __('dash.agent_name') }}</th>
                         <th class="min-w-150px">{{ __('dash.type') }}</th>
                         <th class="min-w-150px">{{ __('dash.category') }}</th>
@@ -41,6 +42,9 @@
                 <tbody class="fw-bold text-gray-800">
                     @foreach ($data as $record)
                         <tr>
+                            <td>
+                                {{ $record->unique_code }}
+                            </td>
                             <td>
                                 {{ $record->user->name }}
                             </td>

@@ -92,4 +92,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->blocks()->where('blocked_user_id', $user->id)->exists();
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function alert()
+    {
+        return $this->hasOne(Alert::class);
+    }
 }

@@ -33,7 +33,7 @@
             </div>
             <!--end::Navbar-->
             <!--begin::Toolbar wrapper-->
-            <div class="d-flex align-items-stretch flex-shrink-0">
+            <div class="d-flex align-items-stretch justify-content-center gap-8 flex-shrink-0">
 
                 <div class="d-flex align-items-center ms-1 ms-lg-3">
                     @if (app()->getLocale() == 'ar')
@@ -46,6 +46,57 @@
                         </a>
                     @endif
                 </div>
+                <!--begin::User menu-->
+                <div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_notification_menu_toggle">
+                    <!--begin::Menu wrapper-->
+                    <div id="alert-btn" class="cursor-pointer symbol symbol-30px symbol-md-40px"
+                        data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+                        <i style="font-size: 24px" class="fa fa-bell " aria-hidden="true"></i>
+                        <span class="badge badge-danger rounded-circle fs-9"
+                            data-count={{ auth()->user()->alert->alert }}>{{ auth()->user()->alert->alert }}
+                        </span>
+                    </div>
+                    <!--begin::User account menu-->
+                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px"
+                        data-kt-menu="true">
+                        <!--begin::Menu item-->
+                        @php
+                            $notifications = auth()
+                                ->user()
+                                ->notifications()
+                                ->orderBy('created_at', 'desc')
+                                ->limit(4)
+                                ->get();
+                        @endphp
+                        @forelse ($notifications as $item)
+                            <div>
+                                <div class="menu-item px-5 py-4" style="cursor: default">
+                                    <div>
+                                        {{ $item->is_active ? __('dash.offer_status_changed_to_active') : __('dash.offer_status_changed_to_inactive') }}
+                                        {{ __('dash.number') }} : {{ $item->unique_code }}
+                                    </div>
+                                </div>
+                                @if (!$loop->last)
+                                    <div class="separator my-2"></div>
+                                @endif
+                            </div>
+                        @empty
+                            <div>
+                                <div class="menu-item px-5 py-4" style="cursor: default">
+                                    <div>
+                                        {{ __('dash.there_no_notification_for_show') }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        @endforelse
+
+
+                    </div>
+                    <!--end::User account menu-->
+                    <!--end::Menu wrapper-->
+                </div>
+                <!--end::User menu-->
 
                 <!--begin::User menu-->
                 <div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">

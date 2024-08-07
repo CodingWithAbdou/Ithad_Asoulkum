@@ -57,6 +57,10 @@ class AdminController extends Controller
         $data = User::create($input);
         $data->role_id = 1;
         $data->save();
+        $data->alert()->create([
+            'user_id' => $data->id,
+            'alert' => 0,
+        ]);
         $status = true;
         $msg = __('dash.created successfully');
         $url = route('dashboard.' . $this->model->route_key . '.index');

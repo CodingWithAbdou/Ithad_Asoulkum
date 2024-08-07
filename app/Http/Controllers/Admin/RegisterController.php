@@ -31,6 +31,10 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $user->alert()->create([
+            'user_id' => $user->id,
+            'alert' => 0,
+        ]);
 
         $user->generateCode();
         Mail::to($user->email)->send(new VerificationCode($user->code));

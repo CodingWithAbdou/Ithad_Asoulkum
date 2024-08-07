@@ -60,6 +60,10 @@ class AgentController extends Controller
         $data = User::create($input);
         $data->email_verified_at = now();
         $data->save();
+        $data->alert()->create([
+            'user_id' => $data->id,
+            'alert' => 0,
+        ]);
         $status = true;
         $msg = __('dash.created successfully');
         $url = route('dashboard.' . $this->model->route_key . '.index');

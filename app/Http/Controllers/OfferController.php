@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RealNotification;
 use App\Models\Image;
 use App\Models\Offer;
 use App\Models\ProjectModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class OfferController extends Controller
 {
@@ -79,6 +81,7 @@ class OfferController extends Controller
 
         $input = $request->all();
         $input['user_id'] = auth()->id();
+        $input['unique_code'] = $this->generateUniqueCode();
         unset($input['images'], $input['is_active']);
         $offer = Offer::create($input);
         if ($request->images) {
@@ -97,6 +100,22 @@ class OfferController extends Controller
             $url = route('dashboard.' . $this->model->route_key . '.index');
         }
         return response()->json(compact('status', 'msg', 'url'));
+    }
+
+    private function generateUniqueCode($length = 10)
+    {
+        $characters = '0123456789';
+        $charactersLength = strlen($characters);
+        $uniqueCode = '';
+
+        do {
+            $uniqueCode = '';
+            for ($i = 0; $i < $length; $i++) {
+                $uniqueCode .= $characters[rand(0, $charactersLength - 1)];
+            }
+        } while (Offer::where('unique_code', $uniqueCode)->exists());
+
+        return $uniqueCode;
     }
 
 
@@ -123,7 +142,19 @@ class OfferController extends Controller
                 'is_active' => $request->is_active,
             ]
         );
-
+        $obj->user->notifications()->create([
+            'user_id' => $obj->user_id,
+            'unique_code' => $obj->unique_code,
+            'notification' =>   $request->is_active ?  __('dash.offer_status_changed_to_active') : __('dash.offer_status_changed_to_inactive'),
+            'is_active' => $request->is_active,
+        ]);
+        $data = [
+            'unique_code' => $obj->unique_code,
+            'owner_id' => $obj->user_id,
+            'is_active' => $request->is_active,
+        ];
+        event(new RealNotification($data));
+        $obj->user->alert()->update(['alert' =>  $obj->user->alert->alert + 1]);
         $status = true;
         $msg = __('dash.updated successfully');
         $url = route('dashboard.' . $this->model->route_key . '.index');

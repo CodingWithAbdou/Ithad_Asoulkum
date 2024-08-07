@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\FaqPageController;
 use App\Http\Controllers\Admin\HomeDashController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\SettingController;
@@ -75,6 +76,7 @@ Route::group(['middleware' => 'guest'], function () {
 
 // pages show just to admin role and with two factor auth
 Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
+    Route::get('notifications', [NotificationController::class, 'notifications'])->name('dashboard.notifications.read');
 
     // item order
     Route::get('/{segment}/re-order/{id?}', [ReorderController::class, 'index'])->name('dashboard.reorder.index');
