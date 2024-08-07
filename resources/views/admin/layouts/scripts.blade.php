@@ -4,8 +4,6 @@
 <!--end::Global Javascript Bundle-->
 {{-- @vite('resources/js/app.js') --}}
 <script>
-    Pusher.logToConsole = true;
-
     var pusher = new Pusher('9d1cf373a746f7003b66', {
         cluster: 'eu'
     });
